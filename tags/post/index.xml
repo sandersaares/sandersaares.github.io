@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>post on Sander Saares</title>
-    <link>https://saares.eu/tags/post/</link>
+    <link>https://sander.saares.eu/tags/post/</link>
     <description>Recent content in post on Sander Saares</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 08 May 2019 00:27:53 +0800</lastBuildDate>
     
-	<atom:link href="https://saares.eu/tags/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://sander.saares.eu/tags/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Test Post</title>
-      <link>https://saares.eu/posts/test-post/</link>
+      <link>https://sander.saares.eu/posts/test-post/</link>
       <pubDate>Wed, 08 May 2019 00:27:53 +0800</pubDate>
       
-      <guid>https://saares.eu/posts/test-post/</guid>
+      <guid>https://sander.saares.eu/posts/test-post/</guid>
       <description>This is a test post.</description>
     </item>
     
