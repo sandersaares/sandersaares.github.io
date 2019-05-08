@@ -6,18 +6,29 @@
     <description>Recent content in Articles on Website of Sander Saares</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 May 2019 00:27:53 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 14 Jul 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://sander.saares.eu/articles/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Test Article</title>
-      <link>https://sander.saares.eu/articles/testing/</link>
-      <pubDate>Wed, 08 May 2019 00:27:53 +0800</pubDate>
+      <title>DRM in HTML: what EME has and has not done for us</title>
+      <link>https://sander.saares.eu/articles/drm-in-html/</link>
+      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://sander.saares.eu/articles/testing/</guid>
-      <description>This is a test article.</description>
+      <guid>https://sander.saares.eu/articles/drm-in-html/</guid>
+      <description>The World Wide Web Consortium has recently made a decision to publish Encrypted Media Extensions (EME) as a web standard. This has drawn criticism from many directions because EME standardizes a mechanism that is highly opaque to users, has the potential to jeopardize their privacy and brings considerable legal risk to any researchers that try to study it.
+Despite this, EME is a step up in interoperability and has incorporated basic privacy-oriented features that were lacking in pre-EME technologies.</description>
+    </item>
+    
+    <item>
+      <title>Closing in on a common media application format</title>
+      <link>https://sander.saares.eu/articles/converging-on-cmaf/</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://sander.saares.eu/articles/converging-on-cmaf/</guid>
+      <description>Apple announced today the support for fragmented MP4 segments in HTTP Live Streaming (HLS), taking the first step in bringing together the two competing adaptive streaming universes that exist today: HLS and DASH. The former is the premier media delivery technology on Apple products while the latter is implemented on all other modern platforms.
+There are two main differences between the two, which has meant that creating two different variants of every piece of content has been unavoidable in order to serve both Apple and non-Apple players.</description>
     </item>
     
   </channel>

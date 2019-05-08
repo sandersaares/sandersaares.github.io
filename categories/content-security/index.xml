@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>content security on Website of Sander Saares</title>
+    <link>https://sander.saares.eu/categories/content-security/</link>
+    <description>Recent content in content security on Website of Sander Saares</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 14 Jul 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://sander.saares.eu/categories/content-security/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DRM in HTML: what EME has and has not done for us</title>
+      <link>https://sander.saares.eu/articles/drm-in-html/</link>
+      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://sander.saares.eu/articles/drm-in-html/</guid>
+      <description>The World Wide Web Consortium has recently made a decision to publish Encrypted Media Extensions (EME) as a web standard. This has drawn criticism from many directions because EME standardizes a mechanism that is highly opaque to users, has the potential to jeopardize their privacy and brings considerable legal risk to any researchers that try to study it.
+Despite this, EME is a step up in interoperability and has incorporated basic privacy-oriented features that were lacking in pre-EME technologies.</description>
+    </item>
+    
+  </channel>
+</rss>
