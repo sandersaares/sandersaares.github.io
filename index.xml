@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sander Saares</title>
+    <title>Website of Sander Saares</title>
     <link>https://sander.saares.eu/</link>
-    <description>Recent content on Sander Saares</description>
+    <description>Recent content on Website of Sander Saares</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 08 May 2019 00:27:53 +0800</lastBuildDate>
@@ -12,22 +12,21 @@
     
     
     <item>
-      <title>Test Post</title>
-      <link>https://sander.saares.eu/posts/test-post/</link>
+      <title>Test Article</title>
+      <link>https://sander.saares.eu/articles/testing/</link>
       <pubDate>Wed, 08 May 2019 00:27:53 +0800</pubDate>
       
-      <guid>https://sander.saares.eu/posts/test-post/</guid>
-      <description>This is a test post.</description>
+      <guid>https://sander.saares.eu/articles/testing/</guid>
+      <description>This is a test article.</description>
     </item>
     
     <item>
-      <title>About Sander</title>
+      <title>About Me</title>
       <link>https://sander.saares.eu/about/</link>
       <pubDate>Tue, 07 May 2019 10:18:52 +0800</pubDate>
       
       <guid>https://sander.saares.eu/about/</guid>
-      <description>I strive to make machines serve mankind. There is much untapped potential in the technology base already available to us that can transform humanity if utilized in the right way at the right time.
-My day job is at Axinom, a company that creates solutions for in-flight entertainment and online streaming. In my role as advisor I deal with a wide range of topics including:
+      <description>My day job is at Axinom, a company that creates solutions for in-flight entertainment and online streaming. In my role as advisor I deal with a wide range of topics including:
  technical product design and information architecture designing modern adaptive streaming workflows, from encoding and packaging to delivery and player integration achieving Hollywood-grade content security in line with MPAA best practices contributing to industry specifications on media streaming technologies understanding performance bottlenecks and optimizing systems on architecture, operating system, database and algorithm levels mentoring colleagues in applying modern techniques and practices exploratory research and development  I am the maintainer of the prometheus-net metrics library, which I use in my daily work.</description>
     </item>
     
