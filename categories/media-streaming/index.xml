@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>media streaming on Website of Sander Saares</title>
-    <link>https://sander.saares.eu/categories/media-streaming/</link>
-    <description>Recent content in media streaming on Website of Sander Saares</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 16 Jun 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://sander.saares.eu/categories/media-streaming/index.xml" rel="self" type="application/rss+xml" />
-    
+    <title>media streaming | Sander Saares</title>
+    <link>/categories/media-streaming/</link>
+      <atom:link href="/categories/media-streaming/index.xml" rel="self" type="application/rss+xml" />
+    <description>media streaming</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Thu, 16 Jun 2016 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>media streaming</title>
+      <link>/categories/media-streaming/</link>
+    </image>
     
     <item>
       <title>Closing in on a common media application format</title>
-      <link>https://sander.saares.eu/articles/converging-on-cmaf/</link>
+      <link>/post/converging-on-cmaf/</link>
       <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://sander.saares.eu/articles/converging-on-cmaf/</guid>
-      <description>Apple announced today the support for fragmented MP4 segments in HTTP Live Streaming (HLS), taking the first step in bringing together the two competing adaptive streaming universes that exist today: HLS and DASH. The former is the premier media delivery technology on Apple products while the latter is implemented on all other modern platforms.
-There are two main differences between the two, which has meant that creating two different variants of every piece of content has been unavoidable in order to serve both Apple and non-Apple players.</description>
+      <guid>/post/converging-on-cmaf/</guid>
+      <description>&lt;p&gt;Apple announced today the 
+&lt;a href=&#34;https://developer.apple.com/videos/play/wwdc2016/504/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;support for fragmented MP4 segments in HTTP Live Streaming (HLS)&lt;/a&gt;, taking the first step in bringing together the two competing adaptive streaming universes that exist today: HLS and DASH. The former is the premier media delivery technology on Apple products while the latter is implemented on all other modern platforms.&lt;/p&gt;
+&lt;p&gt;There are two main differences between the two, which has meant that creating two different variants of every piece of content has been unavoidable in order to serve both Apple and non-Apple players. The key aspects are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The media segment format – which until today had been MPEG-TS for HLS and MP4 for DASH&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;li&gt;The encryption scheme – AES-CBC for HLS and AES-CTR for DASH.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Today&amp;rsquo;s move by Apple eliminates the first difference, enabling the same segment format to be used for both DASH and HLS content. To present content without encryption in both adaptive streaming universes can now be accomplished by simply generating two kinds of manifest files for the exact same media segment files! This provides great savings in disk space, media processing complexity and delivery architecture.&lt;/p&gt;
+&lt;p&gt;What still remains is the obstacle of differing encryption formats. While both HLS-with-MP4 and DASH use Common Encryption, this is merely an umbrella term for multiple different and incompatible encryption schemes. The day when encrypted content can be shared between HLS and DASH remains in the future.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;While Apple contributed to DASH in its early days, this ended up merely leading to the creation of two &amp;ldquo;flavors&amp;rdquo; of DASH – one of which was very Apple-specific and not used by anyone for anything much. When people today speak of DASH they speak of the other, MP4-based variant of DASH. &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
     </item>
     
   </channel>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>content security | Sander Saares</title>
-    <link>/categories/content-security/</link>
-      <atom:link href="/categories/content-security/index.xml" rel="self" type="application/rss+xml" />
-    <description>content security</description>
+    <title>Posts | Sander Saares</title>
+    <link>/post/</link>
+      <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>Posts</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 14 Jul 2017 00:00:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
-      <title>content security</title>
-      <link>/categories/content-security/</link>
+      <title>Posts</title>
+      <link>/post/</link>
     </image>
     
     <item>
@@ -88,6 +88,31 @@ DRM in the world before EME&lt;/p&gt;
 &lt;p&gt;Even when there is a choice of DRM technologies, the decision is made by the solution developer, based on what technology is preferred by them. This is largely driven by technological needs — remember that EME only standardizes the mechanism of DRM system activation. There is nothing even remotely standardized about key management workflows and digital rights policy application. These are closely guarded secrets of DRM technology authors. While differentiation between DRM systems cannot and should not be avoided — it is the differences in technologies that drive competition, after all — this secrecy about the related proprietary formats for key delivery and policy control is mostly meaningless and simply driven by inertia and lack of a reason to do it any different. 99% of the currently-secret communication protocols and formats could be opened for standardization without and loss of security in terms of content protection.&lt;/p&gt;
 &lt;p&gt;It is here that the needs of solution developers overlap with the needs of users — for developers, having to work with different DRM technologies causes needless duplication. Many companies with DRM experience create their own generic abstractions over DRM technologies that enable their solutions to work with them all using a single unified interface. From here, there is only a short leap toward true standardization of DRM protocols. This topic has been raised both in W3C and in private industry forums several times but in every instance the drive to act dissipates as it quickly becomes clear to us that nobody with enough pull in the industry (i.e. the DRM technology providers) would actually implement any of it.&lt;/p&gt;
 &lt;p&gt;A lack of motivation to implement standards is the major factor we need to overcome if we are to open up DRM for the world. Competition is what forces companies to act and EME has done a good job of bringing a small bit of competition to the web by enabling different parties to make use of DRM with reduced development effort. It is by increasing this competition in new ways that we can drive further actions. Writing standards motivated by noble goals of interoperability or the protection of user rights is not enough — companies need to to put their money behind implementing the standards and that will only happen if they have something to gain from it. In the end, DRM is a mechanism that enables solution providers to attract more users by enabling premium content playback and this is the lever that can move the industry.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Closing in on a common media application format</title>
+      <link>/post/converging-on-cmaf/</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      <guid>/post/converging-on-cmaf/</guid>
+      <description>&lt;p&gt;Apple announced today the 
+&lt;a href=&#34;https://developer.apple.com/videos/play/wwdc2016/504/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;support for fragmented MP4 segments in HTTP Live Streaming (HLS)&lt;/a&gt;, taking the first step in bringing together the two competing adaptive streaming universes that exist today: HLS and DASH. The former is the premier media delivery technology on Apple products while the latter is implemented on all other modern platforms.&lt;/p&gt;
+&lt;p&gt;There are two main differences between the two, which has meant that creating two different variants of every piece of content has been unavoidable in order to serve both Apple and non-Apple players. The key aspects are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The media segment format – which until today had been MPEG-TS for HLS and MP4 for DASH&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;li&gt;The encryption scheme – AES-CBC for HLS and AES-CTR for DASH.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Today&amp;rsquo;s move by Apple eliminates the first difference, enabling the same segment format to be used for both DASH and HLS content. To present content without encryption in both adaptive streaming universes can now be accomplished by simply generating two kinds of manifest files for the exact same media segment files! This provides great savings in disk space, media processing complexity and delivery architecture.&lt;/p&gt;
+&lt;p&gt;What still remains is the obstacle of differing encryption formats. While both HLS-with-MP4 and DASH use Common Encryption, this is merely an umbrella term for multiple different and incompatible encryption schemes. The day when encrypted content can be shared between HLS and DASH remains in the future.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;While Apple contributed to DASH in its early days, this ended up merely leading to the creation of two &amp;ldquo;flavors&amp;rdquo; of DASH – one of which was very Apple-specific and not used by anyone for anything much. When people today speak of DASH they speak of the other, MP4-based variant of DASH. &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
 </description>
     </item>
     

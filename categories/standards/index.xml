@@ -1,34 +1,119 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>standards on Website of Sander Saares</title>
-    <link>https://sander.saares.eu/categories/standards/</link>
-    <description>Recent content in standards on Website of Sander Saares</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 14 Jul 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://sander.saares.eu/categories/standards/index.xml" rel="self" type="application/rss+xml" />
-    
+    <title>standards | Sander Saares</title>
+    <link>/categories/standards/</link>
+      <atom:link href="/categories/standards/index.xml" rel="self" type="application/rss+xml" />
+    <description>standards</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 14 Jul 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>standards</title>
+      <link>/categories/standards/</link>
+    </image>
     
     <item>
       <title>DRM in HTML: what EME has and has not done for us</title>
-      <link>https://sander.saares.eu/articles/drm-in-html/</link>
+      <link>/post/drm-in-html/</link>
       <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://sander.saares.eu/articles/drm-in-html/</guid>
-      <description>The World Wide Web Consortium has recently made a decision to publish Encrypted Media Extensions (EME) as a web standard. This has drawn criticism from many directions because EME standardizes a mechanism that is highly opaque to users, has the potential to jeopardize their privacy and brings considerable legal risk to any researchers that try to study it.
-Despite this, EME is a step up in interoperability and has incorporated basic privacy-oriented features that were lacking in pre-EME technologies.</description>
+      <guid>/post/drm-in-html/</guid>
+      <description>&lt;p&gt;The World Wide Web Consortium has recently made a decision to publish Encrypted Media Extensions (EME) as a web standard. 
+&lt;a href=&#34;https://arstechnica.com/information-technology/2017/07/over-many-objections-w3c-approves-drm-for-html5/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;This has drawn criticism from many directions&lt;/a&gt; because EME standardizes a mechanism that is highly opaque to users, has the potential to jeopardize their privacy and brings considerable legal risk to any researchers that try to study it.&lt;/p&gt;
+&lt;p&gt;Despite this, EME is a step up in interoperability and has incorporated basic privacy-oriented features that were lacking in pre-EME technologies. To better understand what EME truly brings to users, one needs to understand not only what it is but also where it comes from and what future directions it and related technologies may take.&lt;/p&gt;
+&lt;h1 id=&#34;what-exactly-are-drm-and-eme&#34;&gt;What exactly are DRM and EME?&lt;/h1&gt;
+&lt;p&gt;Studios that license premium content require video solutions to use Digital Rights Management systems (DRM) that enforce strict control over what users can do with the content. Premium content is delivered to users in encrypted form, ensuring that even if the data is intercepted and copied, it cannot be played back without the required key. Each player must cooperate with a DRM system — a component of the user’s device — that is tasked with obtaining and protecting this key and ensuring that the decrypted content can only be displayed for immediate viewing and not copied.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-eme-defines-an-api-and-various-data-structures-often-used-merely-to-wrap-drm-system-specific-data&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/drm-in-html/EME%20-%20API_hu79037f0a1cdaf64a45e04bae3ad664ab_7251_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;EME defines an API and various data structures, often used merely to wrap DRM system specific data.&#34;&gt;
+
+
+  &lt;img data-src=&#34;/post/drm-in-html/EME%20-%20API_hu79037f0a1cdaf64a45e04bae3ad664ab_7251_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;422&#34; height=&#34;344&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    EME defines an API and various data structures, often used merely to wrap DRM system specific data.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;
+&lt;a href=&#34;https://www.w3.org/TR/encrypted-media/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;EME is an API that defines standard functions and data structures&lt;/a&gt; that can be called form JavaScript in order to activate the DRM system used by the browser and to supply it with data. It does not standardize how DRM systems protect content or keys, or even how they obtain those keys and allow them to be used. Most of the actual messaging involved remains DRM system specific and is simply wrapped by EME data structures. EME provides an on-switch and a feedback mechanism to allow the DRM system to inform the web page about the presence or absence of keys.
+DRM in the world before EME&lt;/p&gt;
+&lt;p&gt;The concept of DRM has been around for decades, gaining significant uptake in the 80s and 90s in cable and satellite television and then spreading to personal devices like the iPod and Zune. It is from here that it made the leap to the web browser when Microsoft published the Silverlight 2.0 plugin in 2008, 
+&lt;a href=&#34;https://msdn.microsoft.com/fr-fr/library/cc838192%28v=vs.95%29.aspx&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;taking Zune’s PlayReady DRM technology along for the ride&lt;/a&gt;. Silverlight was promoted heavily and reached an installed base of around 70% in a few years.&lt;/p&gt;
+&lt;p&gt;As Silverlight was available not only for Internet Explorer but also for other browsers and even on Mac OS, it presented a very attractive target for solution developers who wanted to offer their customers the ability to play back premium content. Companies like Netflix were quick to take advantage of this capability. Suddenly, even small independent solutions could ensure that playback was protected and thereby license content from serious movie studios.&lt;/p&gt;
+&lt;p&gt;Other companies quickly piled on to take a bite of this fast developing market opened by Microsoft, with Flash integrating DRM support and various other vendors offering their own browser plugins for DRM-enabled playback. Their approaches to business were quite different and video playback technologies were at the same time evolving in other ways that lead to a slow uptake of alternative DRM systems, causing Microsoft to come out more or less on top of the browser DRM game. Still, the era of browser plugins was ending and Silverlight usage quickly declined as HTML 5 made the web more unified and presented a convenient alternative to plugin-based rich web app development. Yet for a long time there was no serious alternative for DRM and video playback remained a plugin-driven activity far into the HTML 5 age.&lt;/p&gt;
+&lt;p&gt;In hindsight, we can say that browser plugins were a particularly buggy phenomenon — think of 
+&lt;a href=&#34;https://www.cvedetails.com/vulnerability-list/vendor_id-53/product_id-6761/Adobe-Flash-Player.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;the endless security vulnerabilities of Flash&lt;/a&gt;. The concept of regularly updating browser plugins never really reached the majority of users who as a result were often using outdated software. Furthermore, plugins were completely opaque to the users — a plugin was a black box, providing whatever functionality its authors decided to include. There was nobody advocating for the rights of users in this arrangement — you had to click the install button and accept whatever came or you had to move on and not consume content on your desired website.&lt;/p&gt;
+&lt;p&gt;The system worked despite its flaws and it was the best that the industry could provide in its day. However, plugins endangered users’ computers and caused frustration for solution developers who had to not only convince users to install buggy plugins but then also had to support those users when they inevitably ran into issues. As competing DRM technology stacks were completely incompatible with each other and no single one covered all platforms and device types, ambitious solution developers often had to set up multiple parallel content delivery flows to serve a wide range of platforms, making it expensive to offer premium content to a wide range of users.&lt;/p&gt;
+&lt;h1 id=&#34;how-eme-was-born&#34;&gt;How EME was born&lt;/h1&gt;
+&lt;p&gt;In the early 2010’s it quickly became apparent to many in the industry that with the decline of browser plugins an alternative was needed to ensure that premium content could still be provided to users. If there is no plugin the only thing left is the browser. Yet before tackling the hard topic of DRM, another needed attention. Not only were the browser plugins responsible for DRM but also the actual playback of content, using modern adaptive streaming technologies that could adjust the playback experience according to the the user’s internet connection capabilities. This could not be done by the browsers, which were only capable of playing back simple MP4 files, if that.&lt;/p&gt;
+&lt;p&gt;The first technology to be standardized was Media Source Extensions which defined 
+&lt;a href=&#34;https://www.w3.org/TR/media-source/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;a mechanism for the web page to directly feed content to the browser’s media engine&lt;/a&gt;. The browser took on the complexity of decoding and rendering media and of making use of the device’s hardware acceleration features, none of which could be feasibly done by the JavaScript code running in a web page. This was largely uncontroversial and opened the door to begin standardization of DRM related features along similar lines.&lt;/p&gt;
+&lt;p&gt;As work on Encrypted Media Extensions started it quickly became apparent to many observers that not all participants really understood DRM. This caused significant friction and never truly went away, with different parties approaching the topic from very different viewpoints and some harboring rather unfortunate misunderstandings of what exactly was being worked on. User privacy has been a topic raised time and time again, yet companies implementing EME are often happy with the status quo as they have a conflict of interest in maintaining their DRM technologies that often rely on obfuscation and secrecy to provide security. Firefox developers have stood out at times by speaking up about the rights of users in the W3C working group. Unfortunately, the very same Firefox developers have often been relatively uninformed about the DRM market, making their efforts ineffective.&lt;/p&gt;
+&lt;p&gt;Web standards are usually developed in parallel with implementations and EME was no different. Two major browser manufacturers — Microsoft and Google — each had their own DRM technology and they were eager to get it on the market in a widely usable form. While discussions were ongoing, their browsers implemented what seemed to be the most sensible opinion of the day and sometimes created custom API extensions where there was no EME-provided solution. There came a point in the EME standardization process where the two major browser families had working DRM implementations accessible by EME with the core features implemented in a way essentially compatible with EME. Motivation to continue the standardization quickly declined and for a long time around 2015–2016 EME standardization became something of a purely theoretical exercise, with implementations already in active use in forms resembling various drafts of EME.&lt;/p&gt;
+&lt;p&gt;Things never really changed after that — the more advanced features were dropped from EME due to lack of implementations (required for standardization). Browser authors did not see the point in implementing more EME features as solution developers appeared quite happy to make do with what was already there. In the final stretch of standardization, there has been a slow trickle of convergence but the possibility for EME to drive browser feature development in the field of DRM is largely gone. I suspect this is one of the main reasons why W3C is going ahead with standardization — EME in practice has been a done deal for a year or two already. It is in widespread use and blocking standardization will not get rid of EME or change what browsers do. In many ways, EME survives at the mercy of browsers, not the other way around.&lt;/p&gt;
+&lt;h1 id=&#34;opening-the-market-for-competition&#34;&gt;Opening the market for competition&lt;/h1&gt;
+&lt;p&gt;Behind the scenes, Netflix was the major driving force that motivated platform developers to incorporate readily available media technologies into their browsers and consumer devices. The wave of standardization was largely driven by their massive success in online video. The content pieline — processing, delivery, playback and protection — has always been a massive cost center for solution developers and the lack of standardization often forced companies (that could afford it) to maintain multiple parallel workflows to serve different platforms utilizing different technologies. Platforms that supported standard mechanisms could get a Netflix presence very easily, thereby motivating smaller platforms by enabling them to offer familiar services to users and larger platforms by creating competition.&lt;/p&gt;
+&lt;p&gt;While some browsers are created by companies who are also DRM technology developers, others are not. One thing that EME standardizes is the ability for the web page to choose a DRM system from multiple options presented by the browser. This enabled Firefox to create some welcome competition in the DRM market, dominated by software giants Microsoft and Google, when Firefox chose to integrate Adobe’s DRM technology. As it turned out, Adobe never succeeded with DRM due to their sales approach that consisted of only going for the largest customers. A few years down the line, Google stepped in to integrate their Widevine DRM technology into Firefox, as an option more accessible to solution developers. Thus the availability of premium content for Firefox users was greatly increased, enabling the browser to remain competitive. At the same time, choices in DRM systems were again reduced by the lack of Adobe’s commercial success in the field of DRM.&lt;/p&gt;
+&lt;p&gt;Some platforms such as 
+&lt;a href=&#34;https://developers.google.com/cast/docs/media#delivery-methods-and-adaptive-streaming-protocols&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chromecast and many Android devices incorporate multiple DRM technologies out of the box&lt;/a&gt; and expose them using EME or 
+&lt;a href=&#34;https://developer.android.com/reference/android/drm/package-summary.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;an equivalent non-browser technology&lt;/a&gt;, enabling not only competition between browsers and platforms but also between different DRM technology providers. Five years ago, each DRM technology provider took a royalty payment whenever their technology was used to deliver a decryption key. Today, all major DRM technologies are royalty-free in this regard — largely due to the competition encouraged by the wide uptake EME.&lt;/p&gt;
+&lt;h1 id=&#34;future-opportunities&#34;&gt;Future opportunities&lt;/h1&gt;
+&lt;p&gt;DRM systems remain opaque to users — while EME standardizes the mechanism of activating them, it does not affect what DRM systems actually do. Users have little to no control or visibility over the information collected by DRM systems or the rights that are assigned to them. DRM remains a boolean factor that simply determines whether a video plays back or does not. Any information exposed to the user comes from the website they use, which often says nothing about DRM. Indeed, the user may not even be aware that there is a component in his device that is actively working to protect data from the device’s owner.&lt;/p&gt;
+&lt;p&gt;Increased competition in the field of DRM system development is the best hope for achieving more results in this area. If users are able to select the DRM technologies they wish to use, competition may force DRM system authors to accept privacy-oriented standardization. EME opens the door for choice between DRM technologies, though few platforms actually enable a choice to be made as most only implement a single DRM technology.&lt;/p&gt;
+&lt;p&gt;Even when there is a choice of DRM technologies, the decision is made by the solution developer, based on what technology is preferred by them. This is largely driven by technological needs — remember that EME only standardizes the mechanism of DRM system activation. There is nothing even remotely standardized about key management workflows and digital rights policy application. These are closely guarded secrets of DRM technology authors. While differentiation between DRM systems cannot and should not be avoided — it is the differences in technologies that drive competition, after all — this secrecy about the related proprietary formats for key delivery and policy control is mostly meaningless and simply driven by inertia and lack of a reason to do it any different. 99% of the currently-secret communication protocols and formats could be opened for standardization without and loss of security in terms of content protection.&lt;/p&gt;
+&lt;p&gt;It is here that the needs of solution developers overlap with the needs of users — for developers, having to work with different DRM technologies causes needless duplication. Many companies with DRM experience create their own generic abstractions over DRM technologies that enable their solutions to work with them all using a single unified interface. From here, there is only a short leap toward true standardization of DRM protocols. This topic has been raised both in W3C and in private industry forums several times but in every instance the drive to act dissipates as it quickly becomes clear to us that nobody with enough pull in the industry (i.e. the DRM technology providers) would actually implement any of it.&lt;/p&gt;
+&lt;p&gt;A lack of motivation to implement standards is the major factor we need to overcome if we are to open up DRM for the world. Competition is what forces companies to act and EME has done a good job of bringing a small bit of competition to the web by enabling different parties to make use of DRM with reduced development effort. It is by increasing this competition in new ways that we can drive further actions. Writing standards motivated by noble goals of interoperability or the protection of user rights is not enough — companies need to to put their money behind implementing the standards and that will only happen if they have something to gain from it. In the end, DRM is a mechanism that enables solution providers to attract more users by enabling premium content playback and this is the lever that can move the industry.&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Closing in on a common media application format</title>
-      <link>https://sander.saares.eu/articles/converging-on-cmaf/</link>
+      <link>/post/converging-on-cmaf/</link>
       <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://sander.saares.eu/articles/converging-on-cmaf/</guid>
-      <description>Apple announced today the support for fragmented MP4 segments in HTTP Live Streaming (HLS), taking the first step in bringing together the two competing adaptive streaming universes that exist today: HLS and DASH. The former is the premier media delivery technology on Apple products while the latter is implemented on all other modern platforms.
-There are two main differences between the two, which has meant that creating two different variants of every piece of content has been unavoidable in order to serve both Apple and non-Apple players.</description>
+      <guid>/post/converging-on-cmaf/</guid>
+      <description>&lt;p&gt;Apple announced today the 
+&lt;a href=&#34;https://developer.apple.com/videos/play/wwdc2016/504/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;support for fragmented MP4 segments in HTTP Live Streaming (HLS)&lt;/a&gt;, taking the first step in bringing together the two competing adaptive streaming universes that exist today: HLS and DASH. The former is the premier media delivery technology on Apple products while the latter is implemented on all other modern platforms.&lt;/p&gt;
+&lt;p&gt;There are two main differences between the two, which has meant that creating two different variants of every piece of content has been unavoidable in order to serve both Apple and non-Apple players. The key aspects are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The media segment format – which until today had been MPEG-TS for HLS and MP4 for DASH&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;li&gt;The encryption scheme – AES-CBC for HLS and AES-CTR for DASH.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Today&amp;rsquo;s move by Apple eliminates the first difference, enabling the same segment format to be used for both DASH and HLS content. To present content without encryption in both adaptive streaming universes can now be accomplished by simply generating two kinds of manifest files for the exact same media segment files! This provides great savings in disk space, media processing complexity and delivery architecture.&lt;/p&gt;
+&lt;p&gt;What still remains is the obstacle of differing encryption formats. While both HLS-with-MP4 and DASH use Common Encryption, this is merely an umbrella term for multiple different and incompatible encryption schemes. The day when encrypted content can be shared between HLS and DASH remains in the future.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;While Apple contributed to DASH in its early days, this ended up merely leading to the creation of two &amp;ldquo;flavors&amp;rdquo; of DASH – one of which was very Apple-specific and not used by anyone for anything much. When people today speak of DASH they speak of the other, MP4-based variant of DASH. &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
     </item>
     
   </channel>
