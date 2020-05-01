@@ -5,12 +5,210 @@
     <link>/authors/sandersaares/</link>
       <atom:link href="/authors/sandersaares/index.xml" rel="self" type="application/rss+xml" />
     <description>Sander Saares</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 14 Jul 2017 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 01 May 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Sander Saares</title>
       <link>/authors/sandersaares/</link>
     </image>
+    
+    <item>
+      <title>DRM is not a black box, part 1: why would you use DRM</title>
+      <link>/post/drm-is-not-a-black-box-01/</link>
+      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
+      <guid>/post/drm-is-not-a-black-box-01/</guid>
+      <description>&lt;p&gt;Apps, websites and services presenting high value video content use DRM technologies to prevent the viewer from making copies of the content. It can be surprising to learn that the website operator is not the one who ultimately benefits from DRM.&lt;/p&gt;
+&lt;p&gt;The past twelve years of my work on media streaming projects and products have kept me in close contact with DRM. This is the first 
+&lt;a href=&#34;/categories/drm-is-not-a-black-box/&#34;&gt;in a series of articles&lt;/a&gt; that will briefly explain how the DRM ecosystem functions, in the hope that this will help lift a needless veil of secrecy that surrounds the topic. There is no need to work in the shadows when it comes to DRM - the techniques and mechanisms used should be well understood by all stakeholders to ensure that they are put to the best use.&lt;/p&gt;
+&lt;h1 id=&#34;content-licensing&#34;&gt;Content licensing&lt;/h1&gt;
+&lt;p&gt;A typical company that intends to publish a media streaming solution will first encounter DRM when they try to license some content to offer their viewers. Early in the negotiations, the content provider presents the solution operator with a security questionnaire to fill out. This will include questions both open-ended and highly specific, such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What is your security model?&lt;/li&gt;
+&lt;li&gt;Do you enforce removal of content from viewers whose subscription has lapsed?&lt;/li&gt;
+&lt;li&gt;Does your solution detect jailbroken devices? If yes, how?&lt;/li&gt;
+&lt;li&gt;What is the maximum video resolution you support for each platform you target?&lt;/li&gt;
+&lt;li&gt;Which certificates are used for authenticity verification and who signs them? Does it depend on type of device? If so, how?&lt;/li&gt;
+&lt;li&gt;Does yous solution offer protection against malicious system operators making unauthorized copies? If so, how?&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Which DRM technologies are used?&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There can be as many as 20 pages of questions to answer and forms to fill, the purpose of which is to provide the content provider&amp;rsquo;s security experts the information they need to evaluate the solution&amp;rsquo;s content security capabilities. &lt;strong&gt;The security questionnaire is not a requirements list. A solution does not need to answer &amp;ldquo;yes&amp;rdquo; to every question and to deploy every mechanism listed.&lt;/strong&gt;&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-content-licensing-relationships&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-01/content-licensing_hue99ec5932667dbd61dcd2648619ebbe1_14764_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;592&#34; height=&#34;171&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Content licensing relationships
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;The level of security provided by the solution is evaluated against the policy defined by the content provider to determine what content can be licensed for use in the solution. A solution that provides better security guarantees will unlock the possibility to license more valuable content.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    &lt;p&gt;The term &amp;ldquo;content owner&amp;rdquo; refers to the rights holder. However, most content owners license content directly only to very large customers. This means that in practice content is licensed from an intermediary, often together with post-processing, encoding and/or metadata services, here referred to as content provider.&lt;/p&gt;
+&lt;p&gt;The content owner is ultimately the one who decides the policy associated with a title but in many cases the solution builder never interacts directly with them, all daily interactions being with the content provider.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Different titles have different security requirements:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;4K resolution superhero movies tend to be the most valuable content - very few solution operators can offer security strong enough to license such content. This requires hardened devices and a supply chain where every link is secure and traceable.&lt;/li&gt;
+&lt;li&gt;Early-window content (still playing in cinemas) has fairly high requirements but these can be met by most serious solution operators that have control over the full chain of systems involved in the solution.&lt;/li&gt;
+&lt;li&gt;Anything already available of DVD has quite low requirements, as DVDs can be trivially copied.&lt;/li&gt;
+&lt;li&gt;Library content (e.g. movies 10 or more years old) has minimal requirements, often being available even without the use of DRM technologies.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;While the main basis for the decision is the earning potential of the title for the content owner, technical factors can still have an impact. For example, high-value content can be authorized for playback in less than ideal solutions if presented only at low quality levels (SD resolution).&lt;/p&gt;
+&lt;h1 id=&#34;the-questions-and-answers-are-not-the-security-model&#34;&gt;The questions and answers are not the security model&lt;/h1&gt;
+&lt;p&gt;Ten years ago it was common to see the security questionnaires treated as &amp;ldquo;write-only&amp;rdquo; information in large part - as long as you answered the questions with what sounded like reasonable answers, you got the content. Nowadays, the depth of evaluation has increased and there are actual security experts reviewing the questionnaires in detail. If the text tries to be vague and lacks sufficient depth then additional rounds of inquiry are scheduled and pointed questions are raised to uncover the reasons for the vagueness.&lt;/p&gt;
+&lt;p&gt;This means that it is no longer easy to get away with just filling in convincing-sounding individual answers - the solution architect needs to present a complete set of responses that will convince the security expert reading the text that content security is a core part of the solution. The big picture presented by the answers is a significant component in the security expert&amp;rsquo;s evaluation. &lt;strong&gt;Treating the questionnaire as a list of checkboxes to tick will result in less access to content than one would obtain by presenting a thought-out security model that has meaning also outside the security questionnaire.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There can be a vast difference between the architecture and functioning of a solution designed to handle high-value content and of a solution designed without security principles in mind. It can be quite expensive to retrofit security into a solution if the need is only discovered at a late stage when a content provider security review raises painful questions. Content security should be built into a solution from the start.&lt;/p&gt;
+&lt;h1 id=&#34;what-is-the-role-of-drm&#34;&gt;What is the role of DRM?&lt;/h1&gt;
+&lt;p&gt;The content licensing process is where a typical solution architect will first encounter DRM, with the first question being &amp;ldquo;which DRM technology is used&amp;rdquo;. A typical solution operator publishing content made by other parties will not care about DRM for their own benefit - viewers tend to be rule-abiding customers and even if a few individuals make unauthorized copies the business will not be impacted much. However, content owners care deeply about each and every time their content is accessed because a single unauthorized copy is enough to have a large impact across the entire viewership!&lt;/p&gt;
+&lt;p&gt;Therefore, the usual thinking with regard to DRM is &amp;ldquo;what will satisfy the content owner&amp;rdquo; and not &amp;ldquo;what do I gain from DRM&amp;rdquo;. &lt;strong&gt;Most solution operators see DRM integration as a tax they have to pay in order to obtain content.&lt;/strong&gt; One of the main goals for this series of articles attempts to reduce the budren of implementing DRM by helping solution architects new to DRM to understand the processes involved.&lt;/p&gt;
+&lt;p&gt;Each content owner has a list of DRM technologies they have approved for use with thier content. The most common in use today are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Google Widevine - available on Android, Chrome, Firefox, Edge and various consumer electronic devices&lt;/li&gt;
+&lt;li&gt;Microsoft PlayReady - available on Windows, Edge and many consumer electronic devices&lt;/li&gt;
+&lt;li&gt;Apple FairPlay - available on Apple devices&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These three are the core technologies of the DRM ecosystem and are approved for use by all content owners.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    The 2019 China-US trade sanctions block Chinese manufacturers from using DRM technologies of US-based companies. As a result, Huawei Wiseplay DRM is likely to become a prominent DRM technology in the near future.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Nearly all modern consumer electronic devices include at least one native DRM technology implementation. Devices designed specifically for content playback, such as a smart TV or video-dongle, will typically support both Widevine and PlayReady, plus a few lesser known DRM technologies.&lt;/p&gt;
+&lt;p&gt;Beyond the big three, there are several other DRM technologies that are also approved by many content owners but typically they are used less often as they are not natively supported by most devices and software platforms, requiring the use of plugins and specialized player apps.&lt;/p&gt;
+&lt;h1 id=&#34;technical-components-of-drm-technologies&#34;&gt;Technical components of DRM technologies&lt;/h1&gt;
+&lt;p&gt;Obviously, there is some DRM code that must run on a viewer&amp;rsquo;s device in order to perform the functions expected of a DRM technology - that is, to stop the content from being copied. How this &lt;strong&gt;DRM client&lt;/strong&gt; is delivered and how it integrates with the device&amp;rsquo;s capabilities can be quite different for each technology and each device.&lt;/p&gt;
+&lt;p&gt;Three models are common for deploying DRM clients to viewer devices:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The DRM client is part of the operating system and/or hardware.&lt;/li&gt;
+&lt;li&gt;The DRM client is part of the web browser.&lt;/li&gt;
+&lt;li&gt;The DRM client is part of the app.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;A single DRM technology can exist in multiple forms depending on the target platform. For example, Google Widevine is part of the Android operating system, part of the Chrome, Firefox and Edge browsers, and can be deployed as part of an app on certain other platforms.&lt;/p&gt;
+&lt;p&gt;The capabilities available to each type of DRM client implementation are different. A DRM client integrated into the operating system and/or hardware can take advantage of access control mechanisms that are simply not exposed to browsers or apps, while at the same time protecting itself against attack using more powerful means. The measure of how well a DRM client resists attack is termed &lt;strong&gt;robustness&lt;/strong&gt; - using a more robust implementation will convince a content provider to license you more valuable content.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-simplified-view-of-the-basic-drm-interactions&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-01/technical-components_huf24bed8c476530252cf9c76d337d4518_7444_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;555&#34; height=&#34;125&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Simplified view of the basic DRM interactions
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;In addition to the DRM client on the viewer&amp;rsquo;s device, another DRM component runs as a backend service accessed over the network. To authorize usage of content, a document called a license is generated by the &lt;strong&gt;DRM server&lt;/strong&gt;. This delivers the keys to unlock content, informs the device-side component how it must protect the content and defines under which conditions the viewer is authorized to access it (e.g. time limit, max display resolution). Each DRM technology produces the license using its own proprietary data format and uses a custom communication protocol to provide it to the device-side component.&lt;/p&gt;
+&lt;p&gt;Beyond the interactions relevant to playback, DRM technologies are often also involved in the processing and preparation of the content. The data inside media streams is encrypted to ensure that it cannot be accessed without the cooperation of the DRM client, which is the only element permitted to obtain the key (as part of the license). Furthermore, DRM technology specific activation data is often embedded into the media stream headers to instruct the player on which DRM client to activate and how.&lt;/p&gt;
+&lt;p&gt;The management of encryption keys is often also a proprietary solution tied to the DRM server, although its exact forms vary greatly and no single approach has a strong foothold in the DRM ecosystem. Future articles 
+&lt;a href=&#34;/categories/drm-is-not-a-black-box/&#34;&gt;in this series&lt;/a&gt; will explore the backend workflows in depth.&lt;/p&gt;
+&lt;h1 id=&#34;multi-drm-is-mandatory&#34;&gt;Multi-DRM is mandatory&lt;/h1&gt;
+&lt;p&gt;There is no single DRM technology that covers all platforms. For reasons described in future articles, a solution operator will often want to use the native DRM technology offered by a platform even if other options exist.&lt;/p&gt;
+&lt;p&gt;As a result, a typical solution will need to use multiple DRM technologies, each targeting a specific set of platforms. This is a &lt;strong&gt;multi-DRM&lt;/strong&gt; scenario.&lt;/p&gt;
+&lt;p&gt;Different DRM technologies are completely independent from each other and only in recent years did the use of the same content files with different DRM technologies become feasible, due to all major DRM technologies starting to support the same encryption scheme. There are significant differences in the workflows, APIs and architectural patterns used with different DRM technologies. There are even significant and hidden differences in how different devices implement the same DRM technology! And of course, there are different versions of DRM technologies and different implementations of those technologies. It can be a major challenge to understand how exactly multiple DRM technologies can be effectively tied together in a single solution.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-a-typical-multi-drm-scenario-with-only-two-drm-technologies-simplified-scenario---many-drm-interactions-omitted-to-keep-diagram-readable-click-to-zoom&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/drm-is-not-a-black-box-01/multidrm-mess_huc28b2e8caa9f3b5e91843632b7833869_71261_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;A typical multi-DRM scenario with only two DRM technologies. Simplified scenario - many DRM interactions omitted to keep diagram readable. Click to zoom.&#34;&gt;
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-01/multidrm-mess_huc28b2e8caa9f3b5e91843632b7833869_71261_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1916&#34; height=&#34;471&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    A typical multi-DRM scenario with only two DRM technologies. Simplified scenario - many DRM interactions omitted to keep diagram readable. Click to zoom.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Later articles 
+&lt;a href=&#34;/categories/drm-is-not-a-black-box/&#34;&gt;in this series&lt;/a&gt; will examine in detail the interactions between different DRM technologies to explain how multi-DRM integration in a solution can be accomplished with minimal hassle.&lt;/p&gt;
+&lt;h1 id=&#34;multi-drm-is-unnecessary&#34;&gt;Multi-DRM is unnecessary&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;The primary function of a DRM technology is to restrict what the viewer can do with the content.&lt;/strong&gt; Typically, the viewer is authorized to play back the content (often within a time limit) but not to make copies of the content.&lt;/p&gt;
+&lt;p&gt;And that&amp;rsquo;s it. That&amp;rsquo;s what every DRM technology aims to do. The core function is to restrict the viewer&amp;rsquo;s actions while resisting tampering by a viewer who does not like the imposed restrictions.&lt;/p&gt;
+&lt;p&gt;Different DRM technologies largely accomplish this goal in very similar ways, with the differences between the DRM technologies coming down to proprietary protocols, data formats, SDKs and platform integration. &lt;strong&gt;From a solution operator&amp;rsquo;s perspective, there is zero need for multiple DRM technologies to exist.&lt;/strong&gt; The fact that many different DRM technologies exist and continue to be relevant is largely explained by it being a matter of cost on two fronts:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Someone once made an investment that first rooted a particular DRM technology on some platform and there was never enough justification to change it, as it worked well enough and switching to alternatives would have caused extra cost.&lt;/li&gt;
+&lt;li&gt;It can be cheaper for a platform developer to integrate their own DRM technology than to license and adapt a 3rd party DRM technology. Sure, it might make life more expensive for solution operators by requiring multi-DRM but that is not a cost the platform developer has to pay.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Reducing the needless diversity and complexity of competing DRM technologies is in the interest of every solution operator. A platform developer only has to pay the price of DRM integration once but every solution operator has to pay the price of multi-DRM integration for every solution they deploy and every platform they target.&lt;/p&gt;
+&lt;p&gt;Unfortunately, solution operators do not have much of a voice in the industry bodies that have leverage over platforms by defining industry standards - typically the companies defining the standards are the same ones that are implementing them, not the ones who have to actually use the result. As such, industry standards are often reduced to standardizing the status quo.&lt;/p&gt;
+&lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
+&lt;p&gt;The next article will explore the technical sturcture of content used with modern DRM technologies and walk you through the steps and DRM interactions required to bring content into this form.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>DRM in HTML: what EME has and has not done for us</title>

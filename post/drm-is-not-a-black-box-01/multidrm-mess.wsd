@@ -1,0 +1,65 @@
+@startuml
+
+[PlayReady DRM server] as PR_API
+[Widevine DRM server] as WV_API
+[PlayReady DRM server\ncompatibility helper service\nfor smart TV DRM clients] as PR_API_SmartTV
+
+component "Chromecast" {
+    [Widevine DRM client\nNative, v190415] as CC_WV
+    [PlayReady DRM client\nNative, 2.2] as CC_PR
+    [HTML5 player] as CC_Player1
+    [Cast player] as CC_Player2
+
+    CC_Player1 --> CC_WV
+    CC_Player1 --> CC_PR
+    CC_Player2 --> CC_WV
+    CC_Player2 --> CC_PR
+}
+
+component "Smart TV 2017" {
+    [Widevine DRM client\nNative, v16] as S17_WV
+    [PlayReady DRM client\nNative, special nonstandard API\nresembling version 2.0] as S17_PR1
+    [PlayReady DRM client\nNative, 1.0 style implementation\nwithout any public API] as S17_PR2
+
+    [HTML5 player] as S17_Player1
+    [Native API player] as S17_Player2
+
+    S17_Player1 --> S17_WV
+    S17_Player1 --> S17_PR1
+    S17_Player2 --> S17_WV
+    S17_Player2 --> S17_PR2
+}
+
+component "Android 8.0 device A" {
+    [Widevine DRM client\nNative, v180912] as A8A_WV
+    [PlayReady DRM client\nPlugin, 2.0] as A8A_PR1
+    [PlayReady DRM client\nPlugin, 2.1] as A8A_PR2
+    [PlayReady DRM client\nNative, 1.0] as A8A_PR3
+
+    [HTML5 player] as A8A_Player1
+    [Custom player 1] as A8A_Player2
+    [Custom player 2] as A8A_Player3
+    [App player] as A8A_Player4
+
+    A8A_Player1 --> A8A_WV
+    A8A_Player2 --> A8A_PR1
+    A8A_Player3 --> A8A_PR2
+    A8A_Player4 --> A8A_WV
+    A8A_Player4 --> A8A_PR3
+}
+
+CC_WV --> WV_API
+CC_PR --> PR_API
+
+S17_WV --> WV_API
+S17_PR1 --> PR_API_SmartTV
+S17_PR2 --> PR_API_SmartTV
+
+A8A_WV --> WV_API
+A8A_PR1 --> PR_API
+A8A_PR2 --> PR_API
+A8A_PR3 --> PR_API
+
+PR_API_SmartTV -up-> PR_API
+
+@enduml

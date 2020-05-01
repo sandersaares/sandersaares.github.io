@@ -1,0 +1,13 @@
+@startuml
+
+package "Viewer's device" {
+    [App] as A
+    [DRM client] as C
+}
+
+[DRM server] as S
+
+A -> C : Play movie X
+C -> S : Get license for movie X
+
+@enduml

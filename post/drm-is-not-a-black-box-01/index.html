@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Sander Saares">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Apps, websites and services presenting high value video content use DRM technologies to prevent the viewer from making copies of the content. It can be surprising to learn that the website operator is not the one who ultimately benefits from DRM.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/drm-is-not-a-black-box-01/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3f51b5">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/drm-is-not-a-black-box-01/">
+
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@sandersaares">
+  <meta property="twitter:creator" content="@sandersaares">
+  
+  <meta property="og:site_name" content="Sander Saares">
+  <meta property="og:url" content="/post/drm-is-not-a-black-box-01/">
+  <meta property="og:title" content="DRM is not a black box, part 1: why would you use DRM | Sander Saares">
+  <meta property="og:description" content="Apps, websites and services presenting high value video content use DRM technologies to prevent the viewer from making copies of the content. It can be surprising to learn that the website operator is not the one who ultimately benefits from DRM."><meta property="og:image" content="/post/drm-is-not-a-black-box-01/featured.jpg">
+  <meta property="twitter:image" content="/post/drm-is-not-a-black-box-01/featured.jpg"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2020-05-01T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2020-05-01T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/drm-is-not-a-black-box-01/"
+  },
+  "headline": "DRM is not a black box, part 1: why would you use DRM",
+  
+  "image": [
+    "/post/drm-is-not-a-black-box-01/featured.jpg"
+  ],
+  
+  "datePublished": "2020-05-01T00:00:00Z",
+  "dateModified": "2020-05-01T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Sander Saares"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Sander Saares",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "Apps, websites and services presenting high value video content use DRM technologies to prevent the viewer from making copies of the content. It can be surprising to learn that the website operator is not the one who ultimately benefits from DRM."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>DRM is not a black box, part 1: why would you use DRM | Sander Saares</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Sander Saares</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Sander Saares</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/post"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+
+<div class="article-container pt-3">
+  <h1>DRM is not a black box, part 1: why would you use DRM</h1>
+
+  
+  <p class="page-subtitle">Because you must</p>
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <div>
+    
+
+  
+  <span><a href="/authors/sandersaares/">Sander Saares</a></span>
+  </div>
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    May 1, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    11 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/media-streaming/">media streaming</a>, <a href="/categories/content-security/">content security</a>, <a href="/categories/drm-is-not-a-black-box/">DRM is not a black box</a></span>
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 720px; max-height: 320px;">
+  <div style="position: relative">
+    <img src="/post/drm-is-not-a-black-box-01/featured_hue4546ab00f78e7c845990f7df11dec67_95213_720x0_resize_q90_lanczos.jpg" alt="" class="featured-image">
+    
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>Apps, websites and services presenting high value video content use DRM technologies to prevent the viewer from making copies of the content. It can be surprising to learn that the website operator is not the one who ultimately benefits from DRM.</p>
+<p>The past twelve years of my work on media streaming projects and products have kept me in close contact with DRM. This is the first 
+<a href="/categories/drm-is-not-a-black-box/">in a series of articles</a> that will briefly explain how the DRM ecosystem functions, in the hope that this will help lift a needless veil of secrecy that surrounds the topic. There is no need to work in the shadows when it comes to DRM - the techniques and mechanisms used should be well understood by all stakeholders to ensure that they are put to the best use.</p>
+<h1 id="content-licensing">Content licensing</h1>
+<p>A typical company that intends to publish a media streaming solution will first encounter DRM when they try to license some content to offer their viewers. Early in the negotiations, the content provider presents the solution operator with a security questionnaire to fill out. This will include questions both open-ended and highly specific, such as:</p>
+<ul>
+<li>What is your security model?</li>
+<li>Do you enforce removal of content from viewers whose subscription has lapsed?</li>
+<li>Does your solution detect jailbroken devices? If yes, how?</li>
+<li>What is the maximum video resolution you support for each platform you target?</li>
+<li>Which certificates are used for authenticity verification and who signs them? Does it depend on type of device? If so, how?</li>
+<li>Does yous solution offer protection against malicious system operators making unauthorized copies? If so, how?</li>
+<li><strong>Which DRM technologies are used?</strong></li>
+</ul>
+<p>There can be as many as 20 pages of questions to answer and forms to fill, the purpose of which is to provide the content provider&rsquo;s security experts the information they need to evaluate the solution&rsquo;s content security capabilities. <strong>The security questionnaire is not a requirements list. A solution does not need to answer &ldquo;yes&rdquo; to every question and to deploy every mechanism listed.</strong></p>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure id="figure-content-licensing-relationships">
+
+
+
+  <img data-src="/post/drm-is-not-a-black-box-01/content-licensing_hue99ec5932667dbd61dcd2648619ebbe1_14764_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="592" height="171">
+
+
+
+  
+  
+  <figcaption>
+    Content licensing relationships
+  </figcaption>
+
+
+</figure>
+
+<p>The level of security provided by the solution is evaluated against the policy defined by the content provider to determine what content can be licensed for use in the solution. A solution that provides better security guarantees will unlock the possibility to license more valuable content.</p>
+<div class="alert alert-note">
+  <div>
+    <p>The term &ldquo;content owner&rdquo; refers to the rights holder. However, most content owners license content directly only to very large customers. This means that in practice content is licensed from an intermediary, often together with post-processing, encoding and/or metadata services, here referred to as content provider.</p>
+<p>The content owner is ultimately the one who decides the policy associated with a title but in many cases the solution builder never interacts directly with them, all daily interactions being with the content provider.</p>
+  </div>
+</div>
+<p>Different titles have different security requirements:</p>
+<ul>
+<li>4K resolution superhero movies tend to be the most valuable content - very few solution operators can offer security strong enough to license such content. This requires hardened devices and a supply chain where every link is secure and traceable.</li>
+<li>Early-window content (still playing in cinemas) has fairly high requirements but these can be met by most serious solution operators that have control over the full chain of systems involved in the solution.</li>
+<li>Anything already available of DVD has quite low requirements, as DVDs can be trivially copied.</li>
+<li>Library content (e.g. movies 10 or more years old) has minimal requirements, often being available even without the use of DRM technologies.</li>
+</ul>
+<p>While the main basis for the decision is the earning potential of the title for the content owner, technical factors can still have an impact. For example, high-value content can be authorized for playback in less than ideal solutions if presented only at low quality levels (SD resolution).</p>
+<h1 id="the-questions-and-answers-are-not-the-security-model">The questions and answers are not the security model</h1>
+<p>Ten years ago it was common to see the security questionnaires treated as &ldquo;write-only&rdquo; information in large part - as long as you answered the questions with what sounded like reasonable answers, you got the content. Nowadays, the depth of evaluation has increased and there are actual security experts reviewing the questionnaires in detail. If the text tries to be vague and lacks sufficient depth then additional rounds of inquiry are scheduled and pointed questions are raised to uncover the reasons for the vagueness.</p>
+<p>This means that it is no longer easy to get away with just filling in convincing-sounding individual answers - the solution architect needs to present a complete set of responses that will convince the security expert reading the text that content security is a core part of the solution. The big picture presented by the answers is a significant component in the security expert&rsquo;s evaluation. <strong>Treating the questionnaire as a list of checkboxes to tick will result in less access to content than one would obtain by presenting a thought-out security model that has meaning also outside the security questionnaire.</strong></p>
+<p>There can be a vast difference between the architecture and functioning of a solution designed to handle high-value content and of a solution designed without security principles in mind. It can be quite expensive to retrofit security into a solution if the need is only discovered at a late stage when a content provider security review raises painful questions. Content security should be built into a solution from the start.</p>
+<h1 id="what-is-the-role-of-drm">What is the role of DRM?</h1>
+<p>The content licensing process is where a typical solution architect will first encounter DRM, with the first question being &ldquo;which DRM technology is used&rdquo;. A typical solution operator publishing content made by other parties will not care about DRM for their own benefit - viewers tend to be rule-abiding customers and even if a few individuals make unauthorized copies the business will not be impacted much. However, content owners care deeply about each and every time their content is accessed because a single unauthorized copy is enough to have a large impact across the entire viewership!</p>
+<p>Therefore, the usual thinking with regard to DRM is &ldquo;what will satisfy the content owner&rdquo; and not &ldquo;what do I gain from DRM&rdquo;. <strong>Most solution operators see DRM integration as a tax they have to pay in order to obtain content.</strong> One of the main goals for this series of articles attempts to reduce the budren of implementing DRM by helping solution architects new to DRM to understand the processes involved.</p>
+<p>Each content owner has a list of DRM technologies they have approved for use with thier content. The most common in use today are:</p>
+<ul>
+<li>Google Widevine - available on Android, Chrome, Firefox, Edge and various consumer electronic devices</li>
+<li>Microsoft PlayReady - available on Windows, Edge and many consumer electronic devices</li>
+<li>Apple FairPlay - available on Apple devices</li>
+</ul>
+<p>These three are the core technologies of the DRM ecosystem and are approved for use by all content owners.</p>
+<div class="alert alert-note">
+  <div>
+    The 2019 China-US trade sanctions block Chinese manufacturers from using DRM technologies of US-based companies. As a result, Huawei Wiseplay DRM is likely to become a prominent DRM technology in the near future.
+  </div>
+</div>
+<p>Nearly all modern consumer electronic devices include at least one native DRM technology implementation. Devices designed specifically for content playback, such as a smart TV or video-dongle, will typically support both Widevine and PlayReady, plus a few lesser known DRM technologies.</p>
+<p>Beyond the big three, there are several other DRM technologies that are also approved by many content owners but typically they are used less often as they are not natively supported by most devices and software platforms, requiring the use of plugins and specialized player apps.</p>
+<h1 id="technical-components-of-drm-technologies">Technical components of DRM technologies</h1>
+<p>Obviously, there is some DRM code that must run on a viewer&rsquo;s device in order to perform the functions expected of a DRM technology - that is, to stop the content from being copied. How this <strong>DRM client</strong> is delivered and how it integrates with the device&rsquo;s capabilities can be quite different for each technology and each device.</p>
+<p>Three models are common for deploying DRM clients to viewer devices:</p>
+<ol>
+<li>The DRM client is part of the operating system and/or hardware.</li>
+<li>The DRM client is part of the web browser.</li>
+<li>The DRM client is part of the app.</li>
+</ol>
+<p>A single DRM technology can exist in multiple forms depending on the target platform. For example, Google Widevine is part of the Android operating system, part of the Chrome, Firefox and Edge browsers, and can be deployed as part of an app on certain other platforms.</p>
+<p>The capabilities available to each type of DRM client implementation are different. A DRM client integrated into the operating system and/or hardware can take advantage of access control mechanisms that are simply not exposed to browsers or apps, while at the same time protecting itself against attack using more powerful means. The measure of how well a DRM client resists attack is termed <strong>robustness</strong> - using a more robust implementation will convince a content provider to license you more valuable content.</p>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure id="figure-simplified-view-of-the-basic-drm-interactions">
+
+
+
+  <img data-src="/post/drm-is-not-a-black-box-01/technical-components_huf24bed8c476530252cf9c76d337d4518_7444_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="555" height="125">
+
+
+
+  
+  
+  <figcaption>
+    Simplified view of the basic DRM interactions
+  </figcaption>
+
+
+</figure>
+
+<p>In addition to the DRM client on the viewer&rsquo;s device, another DRM component runs as a backend service accessed over the network. To authorize usage of content, a document called a license is generated by the <strong>DRM server</strong>. This delivers the keys to unlock content, informs the device-side component how it must protect the content and defines under which conditions the viewer is authorized to access it (e.g. time limit, max display resolution). Each DRM technology produces the license using its own proprietary data format and uses a custom communication protocol to provide it to the device-side component.</p>
+<p>Beyond the interactions relevant to playback, DRM technologies are often also involved in the processing and preparation of the content. The data inside media streams is encrypted to ensure that it cannot be accessed without the cooperation of the DRM client, which is the only element permitted to obtain the key (as part of the license). Furthermore, DRM technology specific activation data is often embedded into the media stream headers to instruct the player on which DRM client to activate and how.</p>
+<p>The management of encryption keys is often also a proprietary solution tied to the DRM server, although its exact forms vary greatly and no single approach has a strong foothold in the DRM ecosystem. Future articles 
+<a href="/categories/drm-is-not-a-black-box/">in this series</a> will explore the backend workflows in depth.</p>
+<h1 id="multi-drm-is-mandatory">Multi-DRM is mandatory</h1>
+<p>There is no single DRM technology that covers all platforms. For reasons described in future articles, a solution operator will often want to use the native DRM technology offered by a platform even if other options exist.</p>
+<p>As a result, a typical solution will need to use multiple DRM technologies, each targeting a specific set of platforms. This is a <strong>multi-DRM</strong> scenario.</p>
+<p>Different DRM technologies are completely independent from each other and only in recent years did the use of the same content files with different DRM technologies become feasible, due to all major DRM technologies starting to support the same encryption scheme. There are significant differences in the workflows, APIs and architectural patterns used with different DRM technologies. There are even significant and hidden differences in how different devices implement the same DRM technology! And of course, there are different versions of DRM technologies and different implementations of those technologies. It can be a major challenge to understand how exactly multiple DRM technologies can be effectively tied together in a single solution.</p>
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure id="figure-a-typical-multi-drm-scenario-with-only-two-drm-technologies-simplified-scenario---many-drm-interactions-omitted-to-keep-diagram-readable-click-to-zoom">
+
+
+  <a data-fancybox="" href="/post/drm-is-not-a-black-box-01/multidrm-mess_huc28b2e8caa9f3b5e91843632b7833869_71261_2000x2000_fit_lanczos_2.png" data-caption="A typical multi-DRM scenario with only two DRM technologies. Simplified scenario - many DRM interactions omitted to keep diagram readable. Click to zoom.">
+
+
+  <img data-src="/post/drm-is-not-a-black-box-01/multidrm-mess_huc28b2e8caa9f3b5e91843632b7833869_71261_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="1916" height="471">
+</a>
+
+
+  
+  
+  <figcaption>
+    A typical multi-DRM scenario with only two DRM technologies. Simplified scenario - many DRM interactions omitted to keep diagram readable. Click to zoom.
+  </figcaption>
+
+
+</figure>
+
+<p>Later articles 
+<a href="/categories/drm-is-not-a-black-box/">in this series</a> will examine in detail the interactions between different DRM technologies to explain how multi-DRM integration in a solution can be accomplished with minimal hassle.</p>
+<h1 id="multi-drm-is-unnecessary">Multi-DRM is unnecessary</h1>
+<p><strong>The primary function of a DRM technology is to restrict what the viewer can do with the content.</strong> Typically, the viewer is authorized to play back the content (often within a time limit) but not to make copies of the content.</p>
+<p>And that&rsquo;s it. That&rsquo;s what every DRM technology aims to do. The core function is to restrict the viewer&rsquo;s actions while resisting tampering by a viewer who does not like the imposed restrictions.</p>
+<p>Different DRM technologies largely accomplish this goal in very similar ways, with the differences between the DRM technologies coming down to proprietary protocols, data formats, SDKs and platform integration. <strong>From a solution operator&rsquo;s perspective, there is zero need for multiple DRM technologies to exist.</strong> The fact that many different DRM technologies exist and continue to be relevant is largely explained by it being a matter of cost on two fronts:</p>
+<ol>
+<li>Someone once made an investment that first rooted a particular DRM technology on some platform and there was never enough justification to change it, as it worked well enough and switching to alternatives would have caused extra cost.</li>
+<li>It can be cheaper for a platform developer to integrate their own DRM technology than to license and adapt a 3rd party DRM technology. Sure, it might make life more expensive for solution operators by requiring multi-DRM but that is not a cost the platform developer has to pay.</li>
+</ol>
+<p>Reducing the needless diversity and complexity of competing DRM technologies is in the interest of every solution operator. A platform developer only has to pay the price of DRM integration once but every solution operator has to pay the price of multi-DRM integration for every solution they deploy and every platform they target.</p>
+<p>Unfortunately, solution operators do not have much of a voice in the industry bodies that have leverage over platforms by defining industry standards - typically the companies defining the standards are the same ones that are implementing them, not the ones who have to actually use the result. As such, industry standards are often reduced to standardizing the status quo.</p>
+<h1 id="coming-up-next">Coming up next</h1>
+<p>The next article will explore the technical sturcture of content used with modern DRM technologies and walk you through the steps and DRM interactions required to bring content into this form.</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/drm-is-not-a-black-box-01/&amp;text=DRM%20is%20not%20a%20black%20box,%20part%201:%20why%20would%20you%20use%20DRM" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/drm-is-not-a-black-box-01/&amp;t=DRM%20is%20not%20a%20black%20box,%20part%201:%20why%20would%20you%20use%20DRM" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=DRM%20is%20not%20a%20black%20box,%20part%201:%20why%20would%20you%20use%20DRM&amp;body=/post/drm-is-not-a-black-box-01/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/drm-is-not-a-black-box-01/&amp;title=DRM%20is%20not%20a%20black%20box,%20part%201:%20why%20would%20you%20use%20DRM" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=DRM%20is%20not%20a%20black%20box,%20part%201:%20why%20would%20you%20use%20DRM%20/post/drm-is-not-a-black-box-01/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/drm-is-not-a-black-box-01/&amp;title=DRM%20is%20not%20a%20black%20box,%20part%201:%20why%20would%20you%20use%20DRM" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-circle" src="/authors/sandersaares/avatar_hub71303099b38f2f6cba13ac65c7c942f_84843_270x270_fill_q90_lanczos_center.jpg" alt="Sander Saares">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Sander Saares</a></h5>
+      
+      <p class="card-text">An expert in media streaming and content protection</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:sander@saares.eu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/sandersaares" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://stackoverflow.com/users/2928/sander" target="_blank" rel="noopener">
+        <i class="fab fa-stack-overflow"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js" integrity="sha256-lyWCDMnMeZiXRi7Zl54sZGKYmgQs4izcT7+tKc+KUBk=" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.37431be2d92d7fb0160054761ab79602.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    © Sander Saares 2020 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

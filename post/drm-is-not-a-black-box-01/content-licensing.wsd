@@ -1,0 +1,16 @@
+@startuml
+
+[Solution operator] as You
+[Content provider] as Provider
+[Security questionnaire] as QnA
+[Content catalog] as Catalog
+[Content licensing decision] as Decision
+
+You -> QnA : Fill
+Provider -left-> QnA : Review
+Provider --> Catalog : Publish
+Catalog -> Decision : Availability based on
+You -> Catalog : Obtain content from
+Provider -> Decision : Make
+
+@enduml
