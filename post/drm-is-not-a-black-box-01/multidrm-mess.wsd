@@ -1,5 +1,4 @@
 @startuml
-
 [PlayReady DRM server] as PR_API
 [Widevine DRM server] as WV_API
 [PlayReady DRM server\ncompatibility helper service\nfor smart TV DRM clients] as PR_API_SmartTV

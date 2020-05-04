@@ -1,5 +1,4 @@
 @startuml
-
 [Solution operator] as You
 [Content provider] as Provider
 [Security questionnaire] as QnA
