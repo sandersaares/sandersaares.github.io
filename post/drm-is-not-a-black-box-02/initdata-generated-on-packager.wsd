@@ -1,0 +1,29 @@
+@startuml
+
+[Content packager] as Packager
+[Key 1] as Key1
+[Key 2] as Key2
+[Key 3] as Key3
+[Packaging job configuration] as Job
+[List of DRM technologies] as DrmList
+
+Job -up- Key3 : Use for audio
+Job -up- Key2 : Use for HD
+Job -up- Key1 : Use for SD
+
+Job -up- DrmList
+
+Job --> Packager
+
+component "Initialization data for key 1" as Init1 {
+    [Initialization data for DRM X] as InitDataX
+    [Initialization data for DRM Y] as InitDataY
+    [Initialization data for DRM Z] as InitDataZ
+
+    InitDataX -[#hidden]- InitDataY
+    InitDataY -[#hidden]- InitDataZ
+}
+
+Packager -> Init1 : Generate
+
+@enduml

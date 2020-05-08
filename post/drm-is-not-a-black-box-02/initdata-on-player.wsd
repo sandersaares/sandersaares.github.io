@@ -1,0 +1,16 @@
+@startuml
+
+[Manifest] as MPD
+[Player] as Player
+[DRM client] as DRM
+[Initialization data] as InitData
+
+Player -left-> MPD : Load
+Player --> InitData : Generate
+Player -> DRM : Activate
+DRM --> InitData : Use
+
+note bottom of MPD : Contains no initialization data
+note bottom of InitData : Can often be generated\nbased on manifest contents
+
+@enduml

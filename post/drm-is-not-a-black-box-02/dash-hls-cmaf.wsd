@@ -1,0 +1,17 @@
+@startuml
+[DASH player] as player_dash
+[HLS player] as player_hls
+[DASH manifest] as manifest_dash
+[HLS manifest] as manifest_hls
+[CMAF media files] as cmaf
+
+player_dash --> manifest_dash : Get
+player_hls --> manifest_hls : Get
+
+manifest_dash --> cmaf : Reference
+manifest_hls --> cmaf : Reference
+
+player_dash --> cmaf : Get
+player_hls --> cmaf : Get
+
+@enduml

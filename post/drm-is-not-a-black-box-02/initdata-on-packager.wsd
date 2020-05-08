@@ -1,0 +1,24 @@
+@startuml
+
+[Content packager] as Packager
+[Initialization data for DRM X] as InitDataX
+[Initialization data for DRM Y] as InitDataY
+[Initialization data for DRM Z] as InitDataZ
+[Key 1] as Key1
+[Key 2] as Key2
+[Key 3] as Key3
+[Packaging job configuration] as Job
+
+Job -up- Key1 : Use for SD
+Job -up- Key3 : Use for audio
+Job -up- Key2 : Use for HD
+
+note bottom of Key1: Each key uses unique\ninitialization data for\nevery DRM technology
+
+Key1 -up-> InitDataZ : Reference
+Key1 -up-> InitDataY : Reference
+Key1 -up-> InitDataX : Reference
+
+Job --> Packager
+
+@enduml

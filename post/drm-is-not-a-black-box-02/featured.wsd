@@ -1,0 +1,26 @@
+@startuml
+
+package "In this article" {
+    [Source movie] as MovieClear
+    [Encrypted movie] as MovieEncrypted
+    [Content packager] as Packager
+}
+
+[Key] as Key
+[Player] as Player
+[DRM client] as DRM
+[Display device] as Display
+
+MovieClear -> Packager
+Key -up-> Packager
+
+Packager -> MovieEncrypted
+MovieEncrypted --> Player
+Player -> DRM
+DRM -> Display
+
+Key -up-> DRM
+
+note bottom of DRM : Key is only given to DRM clients\nthat can prove they are authentic\nand can provide required protection
+
+@enduml

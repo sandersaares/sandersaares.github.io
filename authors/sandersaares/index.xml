@@ -5,12 +5,391 @@
     <link>/authors/sandersaares/</link>
       <atom:link href="/authors/sandersaares/index.xml" rel="self" type="application/rss+xml" />
     <description>Sander Saares</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 01 May 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 08 May 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Sander Saares</title>
       <link>/authors/sandersaares/</link>
     </image>
+    
+    <item>
+      <title>DRM is not a black box, part 2: encryption and content</title>
+      <link>/post/drm-is-not-a-black-box-02/</link>
+      <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
+      <guid>/post/drm-is-not-a-black-box-02/</guid>
+      <description>&lt;p&gt;The internet is the birthplace of modern DRM. Even if you deploy an offline solution with local playback, DRM technologies operate with least hassle when your solution uses modern adaptive streaming technologies. A content processing workflow designed for adaptive streaming is a content processing workflow ready for DRM.&lt;/p&gt;
+&lt;p&gt;The two media delivery technologies of relevance here are DASH&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; and HLS&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. The Apple ecosystem uses HLS, whereas everything else uses DASH. In order to understand encryption, you need to understand how content is structured when using these technologies.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Other lesser known delivery technologies are occasionally used by some vendors. However, these alternative technologies are insignificant in the big picture and their use only leads to vendor lock-in and excessive cost. Use DASH and HLS.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;structure-of-dash-and-hls&#34;&gt;Structure of DASH and HLS&lt;/h1&gt;
+&lt;p&gt;Most solutions wish to target viewers on both Apple and non-Apple platforms and therefore need to present all content using both the DASH and HLS delivery technologies. Thankfully this is not as burdensome as it sounds because the two are in fact different flavors of the same thing.&lt;/p&gt;
+&lt;p&gt;The link between the two technologies is CMAF&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; (a cousin of the well-known MP4 file format) which defines a common format for media data storage compatible with both DASH and HLS. The latter two technologies define the format of the &lt;strong&gt;manifest&lt;/strong&gt; files that contain instructions for players on how to access the content stored in the shared CMAF media files.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-relationships-between-dash-hls-and-cmaf&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-02/dash-hls-cmaf_huc0d1bf4dbd1d5fa403595f55ce6350b5_16661_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;405&#34; height=&#34;287&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Relationships between DASH, HLS and CMAF
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;DASH manifest files are served to DASH players, which will use the information within to load data from CMAF media files. HLS manifest files are served to HLS players, which will use the information within to load data from CMAF media files. As the bulk of the data is in the shared CMAF files, there is no duplication of storage costs or excessive CDN throughput despite using two different media delivery technologies.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    The contents of the HLS and DASH manifest files are quite similar and it is often easy to convert from one to the other. This means that a content processing workflow only capable of working with either DASH or HLS can be easily enhanced by post-processing to produce the other manifest format.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The audio and video data exists in the form of &lt;strong&gt;samples&lt;/strong&gt;, where one sample is one video frame (e.g. 24 samples per second) or a similar duration of audio data. Samples are grouped into self-contained &lt;strong&gt;segments&lt;/strong&gt; of 2-10 second duration, where each segment is independently presentable by players without having to reference data in any other segment. A &lt;strong&gt;CMAF header&lt;/strong&gt; contains the technical parameters required for a decoder to process the data contained in the segments.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-structure-of-cmaf-media-data-storage&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/drm-is-not-a-black-box-02/structure_hud23d80927c2dbf72f5510d55cb4f781d_16601_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;Structure of CMAF media data storage&#34;&gt;
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-02/structure_hud23d80927c2dbf72f5510d55cb4f781d_16601_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;575&#34; height=&#34;400&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Structure of CMAF media data storage
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Segments may either be stored in separate files or in one giant CMAF track file (effectively just a concatenated series of segments prefixed with the CMAF header). The storage format largely depends on workflow-specific configuration and content processing service compatibility - different services expect the data to exist in different forms.&lt;/p&gt;
+&lt;h1 id=&#34;applying-drm-to-movies&#34;&gt;Applying DRM to movies&lt;/h1&gt;
+&lt;p&gt;The media samples stored inside the CMAF files are encrypted. DRM technologies rely on encryption to control when and where the media data can be used for playback, creating situations where the decryption key is only provided to authorized DRM clients and only when all the necessary conditions to ensure adequate content protection are met.&lt;/p&gt;
+&lt;p&gt;Encryption is performed individually for each sample - it is not the files themselves that are encrypted but only the actual audio/video data within them. Even there, encryption is only partially applied - for video data only 10% of each sample is encrypted, leaving 90% in the clear. As the encryption is applied in a repeating pattern of 1:9 blocks, it is sometimes called &lt;strong&gt;pattern encryption&lt;/strong&gt;. One block is 16 bytes.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-10-pattern-encryption-applied-to-data-in-video-samples&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-02/pattern-encryption_hu0aaf388355e1e6fea96100781571c40d_4597_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;504&#34; height=&#34;383&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    10% pattern encryption applied to data in video samples
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    The rationale for using pattern encryption is that encrypting 10% of the data is sufficient to make the samples unusable without the key while minimizing the impact of decryption on processor capacity and battery life. Audio samples are fully encrypted due to their relatively small size.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;A small prefix of up to 32 bytes in each sample is typically left in the clear to enable sample headers to be processed. This technique of dividing a sample into clear and encrypted regions is called &lt;strong&gt;subsample encryption&lt;/strong&gt;. For encryption algorithm purposes (e.g. where does the 10% pattern start) the clear prefix is considered not to be a part of the sample.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-subsample-encryption-leaves-an-optional-clear-prefix-to-expose-the-sample-headers&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-02/subsample-encryption_hu0afda73aaeaf539bab2ab42eece5ae8e_2803_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;503&#34; height=&#34;212&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Subsample encryption leaves an optional clear prefix to expose the sample headers
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Subsample encryption is typically only used with video tracks and does not need to be configured by the operator - content processing tools that encrypt data already know when a clear prefix is required and will insert it automatically.&lt;/p&gt;
+&lt;p&gt;The technical details of encryption are described by the &lt;code&gt;cbcs&lt;/code&gt; protection scheme defined in the Common Encryption&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; standard. You may see material online referencing the &lt;code&gt;cenc&lt;/code&gt; protection scheme but this scheme is effectively becoming obsolete as Apple devices do not support it. Modern devices use &lt;code&gt;cbcs&lt;/code&gt;. In addition to cryptographic differences, the &lt;code&gt;cenc&lt;/code&gt; protection scheme does not use pattern encryption but encrypts the entire sample.&lt;/p&gt;
+&lt;div class=&#34;alert alert-warning&#34;&gt;
+  &lt;div&gt;
+    If your target device set contains devices that do not support the &lt;code&gt;cbcs&lt;/code&gt; protection scheme then you will need to create two copies of every encrypted track - one encrypted with &lt;code&gt;cbcs&lt;/code&gt; (for Apple and newer non-Apple devices) and one with &lt;code&gt;cenc&lt;/code&gt; (for older non-Apple devices).
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;After applying encryption the movie is safe for publishing over unprotected channels. You do not need to guard access to the files as the content cannot be accessed without the key. In some high-security scenarios, you might still care about protecting access to the files as part of a defense-in-depth strategy (e.g. by using URL signing to control who can download the files) but on a cryptographic level the sample data is now unusable for an attacker.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    All modern DRM technologies use the same encryption algorithms that are equally strong - there is no difference in the strength of encryption between DRM technologies. However, different DRM client implementations do have different strengths and weaknesses. This will be explored in depth by the next article in this series.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;To apply encryption, you need to know the &lt;strong&gt;key&lt;/strong&gt; and the &lt;strong&gt;key ID&lt;/strong&gt; (or &lt;strong&gt;KID&lt;/strong&gt;). The key is a 128-bit symmetric key (i.e. the same key is used for encryption and decryption). The KID is a separate (non-secret) 128-bit value used elsewhere in DRM workflows to reference a specific key. Key management is a large topic of its own, to be covered in a separate article.&lt;/p&gt;
+&lt;p&gt;Different data formats are used for representing keys and KIDs, depending on the situation and the specific piece of software. In practice, the KID is typically formatted as a GUID&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; (&lt;code&gt;a0a8db17-20c7-4068-bfbd-f8a68e34f1a5&lt;/code&gt;) and the key as a base64 or hexadecimal string (&lt;code&gt;FSu0UIH8Z06IOyXVlnmc8Q==&lt;/code&gt; or &lt;code&gt;0x152bb45081fc674e883b25d596799cf1&lt;/code&gt;).&lt;/p&gt;
+&lt;div class=&#34;alert alert-warning&#34;&gt;
+  &lt;div&gt;
+    &lt;p&gt;GUIDs have multiple different binary representations! The &amp;ldquo;Linux style&amp;rdquo; binary format is acheived by removing the dashes and treating a GUID as a hexadecimal string. The &amp;ldquo;Windows style&amp;rdquo; binary format is achieved in a more complex fashion, with a different order of bytes.&lt;/p&gt;
+&lt;p&gt;Media streaming systems typically use the Linux style binary format. This has caused much pain when software platforms assume Windows style and developers only discover that 2 years into production when integrating another system that uses Linux style. In hindsight using GUIDs for KIDs was a mistake but it&amp;rsquo;s too late to go back now.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;A different key is used for tracks carry content with different value (e.g. 4K quality is more valuable than SD quality) or different decoder paths (audio versus video). For example, a typical movie might use the following set of keys:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;SD video key&lt;/li&gt;
+&lt;li&gt;HD video key&lt;/li&gt;
+&lt;li&gt;UHD video key&lt;/li&gt;
+&lt;li&gt;audio key&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;After encrypting the samples, the CMAF header and segment header are extended with encryption-relevant information&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;. The DASH and HLS manifest are annotated, at minimum, with the KID of each track. Often, DRM client initialization data is also added to the manifests.&lt;/p&gt;
+&lt;h1 id=&#34;embedded-initialization-data&#34;&gt;Embedded initialization data&lt;/h1&gt;
+&lt;p&gt;A player needs to provide &lt;strong&gt;initialization data&lt;/strong&gt; to a DRM client in order to activate it. The format of this data is specific to the DRM technology but is typically based on the &lt;code&gt;pssh&lt;/code&gt; format defined by Common Encryption&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;DRM client initialization data is embedded into the DASH and HLS manifests for every DRM technology that the solution integrates with at the time of content processing. The manifest files can be easily extended with more initialization data when additional DRM technologies are integrated into a solution.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Historically, initialization data was embedded into the CMAF header instead of manifest files but this approach is deprecated due to maintenance problems it caused - it is much harder to change the CMAF header if you need to replace or extend the DRM initialization data.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Here is an example of PlayReady and FairPlay initialization data for the same KID, in DASH format for PlayReady and HLS format for FairPlay. PlayReady uses the &lt;code&gt;pssh&lt;/code&gt; format, whereas FairPlay uses a URL-like initialization data format:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;ContentProtection value=&amp;quot;MSPR 2.0&amp;quot; schemeIdUri=&amp;quot;urn:uuid:9a04f079-9840-4286-ab92-e65be0885f95&amp;quot;&amp;gt;
+  &amp;lt;cenc:pssh&amp;gt;AAAB5HBzc2gAAAAAmgTweZhAQoarkuZb4IhflQAAAcTEAQAAAQABALoBPABXAFIATQBIAEUAQQBEAEUAUgAgAHgAbQBsAG4AcwA9ACIAaAB0AHQAcAA6AC8ALwBzAGMAaABlAG0AYQBzAC4AbQBpAGMAcgBvAHMAbwBmAHQALgBjAG8AbQAvAEQAUgBNAC8AMgAwADAANwAvADAAMwAvAFAAbABhAHkAUgBlAGEAZAB5AEgAZQBhAGQAZQByACIAIAB2AGUAcgBzAGkAbwBuAD0AIgA0AC4AMAAuADAALgAwACIAPgA8AEQAQQBUAEEAPgA8AFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBFAFkATABFAE4APgAxADYAPAAvAEsARQBZAEwARQBOAD4APABBAEwARwBJAEQAPgBBAEUAUwBDAFQAUgA8AC8AQQBMAEcASQBEAD4APAAvAFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBJAEQAPgBKAFEAegBJACsAQQA5AHAATgBrAGUAQgBNAGsATQBPAFgARwBtAFUAegBnAD0APQA8AC8ASwBJAEQAPgA8AC8ARABBAFQAQQA+ADwALwBXAFIATQBIAEUAQQBEAEUAUgA+AA==&amp;lt;/cenc:pssh&amp;gt;
+&amp;lt;/ContentProtection&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;#EXT-X-SESSION-KEY:METHOD=SAMPLE-AES,URI=&amp;quot;skd://f8c80c25-690f-4736-8132-430e5c6994ce:51BB4F1A7E2E835B2993884BD09ADB19&amp;quot;,KEYFORMAT=&amp;quot;com.apple.streamingkeydelivery&amp;quot;,KEYFORMATVERSIONS=&amp;quot;1&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Initialization data is obviously unique for each DRM technology but also for each key, because it typically contains the KID. Because of this, initialization data can make up a surprisingly large portion of a manifest file.&lt;/p&gt;
+&lt;p&gt;It is most common to provide initialization data as part of the configuration for the content packager that performs the encryption. Different packagers accept configuration in different ways (some even use a hybrid push-pull model to retrieve different parts of the configuration in different ways). No matter how the configuration is defined the end result is the same: DRM initialization data is given to the packager by an external system.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-unique-initialization-data-is-associated-with-each-key-and-each-drm-technology&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-02/initdata-on-packager_hu9fce4d5bd4b1a0b68c37623c02caf6dd_25433_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;664&#34; height=&#34;407&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Unique initialization data is associated with each key and each DRM technology
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Some content packagers, however are capable of generating DRM initialization data on their own. This can lead to significant simplification in the backend workflows. You should use this capability whenever possible.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-in-many-cases-the-packager-can-simply-generate-drm-initialization-data-if-it-knows-what-drm-technologies-are-to-be-used&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-02/initdata-generated-on-packager_hu74e4a2f81fb78a90ec66acb0c5d7d6f1_25118_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;715&#34; height=&#34;531&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    In many cases, the packager can simply generate DRM initialization data if it knows what DRM technologies are to be used
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h1 id=&#34;initialization-data-is-legacy&#34;&gt;Initialization data is legacy&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Other than to provide initialization data, there is no reason the content processing workflow even needs to know what DRM technologies will be used with the content!&lt;/strong&gt; The requirement to embed this data into the manifests complicates data flows and often does so needlessly. Reducing unnecessary interactions in DRM workflows is a critical part of making it simple to integrate DRM into a solution, so this requirement is best eliminated.&lt;/p&gt;
+&lt;p&gt;DRM initialization data is a mechanism for configuring DRM client behavior. It exists because there used to be no APIs that players could use to communicate with a DRM client - any configuration of DRM client behavior had to be done by embedding a DRM technology specific blob into the video itself. Later, this blob moved into the manifest files for easier manipulation. Today, the times have changed and modern DRM clients do offer APIs (e.g. Encrypted Media Extensions&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt; and equivalents). As a result, DRM initialization data often contains no information of value. Yet it persists in the APIs and workflows as an artifact of history.&lt;/p&gt;
+&lt;p&gt;In principle, providing DRM initialization data in the manifest files is optional - the initialization data could be acquired through other means by the player or even generated on the fly. Unfortunately, few players currently implement DRM client activation without embedded initialization data.&lt;/p&gt;
+&lt;p&gt;In short, the initialization data is typically just a DRM technology specific way to represent the KID. &lt;strong&gt;If possible, use players that can generate DRM client initialization data on the fly - by separating DRM technologies from your content pipeline you will achieve a more robust and maintainable solution architecture&lt;/strong&gt;.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-the-player-can-generate-drm-initialization-data-and-greatly-reduce-content-processing-complexity-and-simplify-interactions-in-drm-workflows&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-02/initdata-on-player_huae6841bf243854e3d25956f48bc90a75_15501_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;443&#34; height=&#34;276&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    The player can generate DRM initialization data and greatly reduce content processing complexity and simplify interactions in DRM workflows
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;DRM client initialization data is specific to each DRM technology and to each key. As such, a unique instance of the initialization data is embedded into the DASH and HLS manifests for each key used to encrypt the movie and for each DRM technology the movie is to be used with. A movie with a typical set of 4 keys, used with 3 DRM technologies, would have 4x3=12 instances of DRM initialization data embedded into it. &lt;strong&gt;By generating initialization data at runtime, you also benefit from minimizing the size of the manifest files, leading to greater efficiency, especially in live scenarios where the manifest must be refreshed periodically.&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&#34;what-is-encrypted&#34;&gt;What is encrypted?&lt;/h1&gt;
+&lt;p&gt;Audio and video tracks are encrypted. Text tracks (subtitles) are not.&lt;/p&gt;
+&lt;p&gt;Text tracks are technically equivalent to audio and video tracks but are entirely ignored in this series of articles because in practice they are never encrypted nor protected by DRM.&lt;/p&gt;
+&lt;h1 id=&#34;what-requires-configuration&#34;&gt;What requires configuration?&lt;/h1&gt;
+&lt;p&gt;It can be confusing to tell the difference between what part of the encryption process is handled automatically by media processing products or services and what must be explicitly configured by an operator.&lt;/p&gt;
+&lt;p&gt;There is no straightforward answer as the details depend on the exact products and services used to perform the encryption - if you use very low-level media processing tools you may need to provide low level details, whereas if you use a fully automated publishing pipeline then you might not need to do anything at all.&lt;/p&gt;
+&lt;p&gt;Consult with an expert to determine the appropriate setup for your specific situation.&lt;/p&gt;
+&lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
+&lt;p&gt;Having encrypted the samples and embedded DRM client initialization data, the content is ready to be served. The next article will take a look at the duties of the DRM client.&lt;/p&gt;
+&lt;p&gt;Key management and other DRM-relevant data flows in the content pipeline will be covered in a separate article.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://www.iso.org/standard/79329.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ISO/IEC 23009-1:2019 (MPEG-DASH)&lt;/a&gt; &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://tools.ietf.org/html/rfc8216&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RFC 8216&lt;/a&gt; and 
+&lt;a href=&#34;https://developer.apple.com/streaming/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;HTTP Live Streaming (Apple)&lt;/a&gt; &lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://www.iso.org/standard/79106.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ISO/IEC 23000-19:2020 (MPEG-CMAF)&lt;/a&gt; &lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://www.iso.org/standard/68042.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ISO/IEC 23001-7:2016 (Common Encryption)&lt;/a&gt; &lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://devblogs.microsoft.com/oldnewthing/20190426-00/?p=102450&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;How many ways are there to sort GUIDs? How much time do you have?&lt;/a&gt; &lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/Guidelines-Security/master/Guidelines-Security.html#CPS-cmaf-structure&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF Implementation Guidelines: Content Protection and Security (8.1 Content protection data in CMAF containers)&lt;/a&gt; &lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://www.w3.org/TR/encrypted-media/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;W3C Encrypted Media Extensions&lt;/a&gt; &lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+    </item>
     
     <item>
       <title>DRM is not a black box, part 1: why would you use DRM</title>
@@ -206,7 +585,8 @@
 &lt;p&gt;Reducing the needless diversity and complexity of competing DRM technologies is in the interest of every solution operator. A platform developer only has to pay the price of DRM integration once but every solution operator has to pay the price of multi-DRM integration for every solution they deploy and every platform they target.&lt;/p&gt;
 &lt;p&gt;Unfortunately, solution operators do not have much of a voice in the industry bodies that have leverage over platforms by defining industry standards - typically the companies defining the standards are the same ones that are implementing them, not the ones who have to actually use the result. As such, industry standards are often reduced to standardizing the status quo.&lt;/p&gt;
 &lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
-&lt;p&gt;The next article will explore the technical sturcture of content used with modern DRM technologies and walk you through the steps and DRM interactions required to bring content into this form.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../drm-is-not-a-black-box-02/&#34;&gt;The next article&lt;/a&gt; will explore the technical sturcture of content used with modern DRM technologies and walk you through the steps and DRM interactions required to bring content into this form.&lt;/p&gt;
 </description>
     </item>
     
