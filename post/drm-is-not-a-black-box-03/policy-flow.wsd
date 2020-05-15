@@ -1,0 +1,26 @@
+@startuml
+
+[Contract]
+[CMS]
+database Database
+[Authorization service] as authz
+[DRM server] as drm_server
+[DRM client] as drm_client
+node "Authorization token" as token
+node License
+actor Operator as admin
+
+admin -left-> Contract: Read
+admin -> CMS: Create rules
+
+CMS -down-> Database: Save rules
+
+authz -right-> Database: Read rules
+authz -down-> token: Create with\npolicy configuration
+
+drm_server -left-> token: Read
+drm_server -down-> License: Create with DRM-specific\npolicy configuration
+
+drm_client -> License: Read & enforce
+
+@enduml

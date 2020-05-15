@@ -1,0 +1,18 @@
+@startuml
+
+[Decoder] as decoder
+
+[White-box decryption algorithm with\nembedded DRM client private key] as whitebox
+
+component "License" {
+    [Encrypted movie key] as movie_key_encrypted
+}
+
+[Encrypted movie] as movie
+
+movie -> whitebox
+whitebox -> decoder
+
+movie_key_encrypted --> whitebox
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+component "Secure enclave" {
+    [DRM client private key] as private_key
+    [Movie key] as movie_key
+    [Decoder] as decoder
+    [Movie decryption algorithm] as aes
+    [Key decryption algorithm] as asymmetric
+}
+
+component "License" {
+    [Encrypted movie key] as movie_key_encrypted
+}
+
+[Encrypted movie] as movie
+
+movie -> aes
+aes -> decoder
+
+movie_key --> aes
+
+movie_key_encrypted --> asymmetric
+private_key --> asymmetric
+asymmetric -> movie_key
+
+@enduml

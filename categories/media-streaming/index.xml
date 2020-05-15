@@ -5,12 +5,316 @@
     <link>/categories/media-streaming/</link>
       <atom:link href="/categories/media-streaming/index.xml" rel="self" type="application/rss+xml" />
     <description>media streaming</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 08 May 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>media streaming</title>
       <link>/categories/media-streaming/</link>
     </image>
+    
+    <item>
+      <title>DRM is not a black box, part 3: secure playback</title>
+      <link>/post/drm-is-not-a-black-box-03/</link>
+      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
+      <guid>/post/drm-is-not-a-black-box-03/</guid>
+      <description>&lt;p&gt;Security of DRM relies on keeping secret the cryptographic keys that protect content. The DRM client is the only component on the viewer&amp;rsquo;s device authorized to handle these keys. In the DRM security model the viewer is the attacker which means that a DRM client operates under very difficult conditions, running on an adversary&amp;rsquo;s device.&lt;/p&gt;
+&lt;p&gt;While each DRM technology and each implementation of a DRM client is unique, every DRM technology aims to achieve the same goals and many DRM client implementations do it in similar ways. This article describes the general patterns that apply to all.&lt;/p&gt;
+&lt;h1 id=&#34;robustness&#34;&gt;Robustness&lt;/h1&gt;
+&lt;p&gt;The major differentiating factor between DRM client implementations is the &lt;strong&gt;robustness&lt;/strong&gt; level. This is a description of how resistant an implementation is to attacks and tampering.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Each DRM technology provider uses their own scale of robustness levels. One might use &amp;ldquo;robustness level 1000, 2000 and 3000&amp;rdquo; whereas another might use &amp;ldquo;low&amp;rdquo;, &amp;ldquo;medium&amp;rdquo;, &amp;ldquo;high&amp;rdquo; and &amp;ldquo;very high&amp;rdquo;. Understanding what a particular implementation offers requires understanding the terminology of the specific DRM technology.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;There is no perfect DRM client implementation. A sufficiently skilled attacher can eventually extract the secrets from any of them. The core principle of DRM client security is to make this unreasonably expensive for the attacker. Every DRM client uses a defense in depth strategy to layer multiple defense mechanisms between the attacker and the keys or decrypted media samples.&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;high robustness level&lt;/strong&gt; is provided by DRM client implementations that are built into the operating system and can make use of OS-level and hardware-level security mechanisms. In such implementations, cryptographic operations might be performed on a separate CPU. Valuable data such as keys and decrypted media samples might be stored only in a memory region inaccessible to the primary operating system. This level of robustness is typically mandatory if you wish to play back UHD or sometimes even HD content (depending on content owner policies).&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;low robustness level&lt;/strong&gt; is provided by DRM client implementations that are self-contained and do not integrate deeply with the operating system or hardware. This is typical for DRM clients built into browsers and apps. They rely on obfuscation to make it difficult for an attacker to observe what the DRM client does and to extract the keys and decrypted data. Despite not being part of the operating system, such implementations will still use operating system provided APIs to restrict unauthorized use where possible (e.g. by preventing output over HDMI to recording devices, only allowing output to display devices). This type of implementation typically does not permit for high-value content to be presented but is sufficient for playback of less security-critical content (e.g. movies that have completed their initial run in cinemas, presented in 720p resolution or lower).&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    While many web browser based DRM clients are of low robustness, it is possible for a web browser to make use of a high robustness DRM client if the operating system provides one. Which is the case depends on the specific browser, operating system and device combination.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Widely deployed high-robustness DRM client implementations are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Microsoft PlayReady on Windows&lt;/li&gt;
+&lt;li&gt;Google Widevine on Android&lt;/li&gt;
+&lt;li&gt;Apple FairPlay on Apple devices&lt;/li&gt;
+&lt;li&gt;Microsoft PlayReady and/or Google Widevine on other consumer electronic devices (e.g. smart TV, set-top box, TV dongles)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For modular devices such as PCs, the exact device capabilities (e.g. type of installed CPU and active UEFI firmware configuration) may constrain the maximum available robustness level. For example, certain versions of PlayReady on Windows PCs only offer high robustness if the Intel Management Engine is present and enabled.&lt;/p&gt;
+&lt;h1 id=&#34;robustness-brings-content&#34;&gt;Robustness brings content&lt;/h1&gt;
+&lt;p&gt;The type of DRM client implementation you need to use in your solution depends on the requirements of the content provider. The higher the level of security you can provide, the more access to valuable content you will get. However, &lt;strong&gt;content providers typically do not provide clear and obvious guidelines on what security mechanisms are needed to license content&lt;/strong&gt;. They might publish best practices and refer to industry guidelines&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; but these publications should not be taken as requirements - you gain access to content if the content provider finds the risk/reward ratio of your security model and business case to be favorable. First and foremost, &lt;strong&gt;you need a well thought-out security model that covers all the relevant angles and is actually used as a basis for creating the solution, not merely written up after the fact during the content licensing discussion&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;A common mistake is to treat the referenced best practices or industry guidelines as a set of requirements. While published industry guidelines tend to point you in the right direction, a security model is more than merely a set of checkboxes to tick. Indeed, not everything in the set of industry best practices is necessarily relevant or important in all solutions - every security decision must be considered in context.&lt;/p&gt;
+&lt;p&gt;In the end you need to make some choices, describe your security model to a content provider and observe their response. The discussion can include several rounds of alignment and adjustment depending on the content you desire to gain access to.&lt;/p&gt;
+&lt;p&gt;Mitigating factors can apply in some circumstances - for example, if, instead of targeting viewer owned devices, your playback devices are owned by the solution operator (e.g. they are screens mounted onto walls or into vehicles) you might be given more access to content because it will be difficult for an arbitrary viewer to gain operator-level access to such devices.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    While this article focuses on DRM client security, supply chain attacks by malicious employees are also a concern that needs to be addressed - content must be protected not only on viewer devices but at all times, including when devices are being serviced by authorized but potentially malicious operators. A separate article will cover end-to-end security in depth.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The goal in a content licensing security review is always to convince the content provider that you can provide content security, not to merely tick some checkboxes. To succeed at this, you must understand how DRM client robustness affects your solution and be able to explain this in detail. The rest of this article explores aspects of DRM client behavior at different levels of robustness.&lt;/p&gt;
+&lt;h1 id=&#34;obtaining-keys&#34;&gt;Obtaining keys&lt;/h1&gt;
+&lt;p&gt;A DRM client needs one or more keys to unlock a movie. Different keys are typically used for different components (e.g. a key for audio, a key for SD video tracks and another key for HD video tracks). During live streams, the keys may also be changed periodically&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; in order to force re-authorization checks.&lt;/p&gt;
+&lt;p&gt;During DRM client activation&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; by a player, initialization data is provided. Initialization data informs the DRM client what keys it will need to play back content.&lt;/p&gt;
+&lt;div class=&#34;alert alert-warning&#34;&gt;
+  &lt;div&gt;
+    The workflows for DRM client activation are not meaningfully standardized and universally applicable patterns do not yet exist. Players and DRM clients may differ in activation behavior, even between different instances of using the same DRM technology.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If the required keys are not already in the DRM client key store, it will inform the app that it needs to acquire them via a &lt;strong&gt;license request&lt;/strong&gt; (aka key request).&lt;/p&gt;
+&lt;p&gt;The reason the DRM client does not simply go and request the keys on its own is that the app needs to attach data to the license request, providing proof of authorization&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; for the DRM server, proving that the viewer really does have the right to use the requested keys.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-license-request-flow&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-03/license-request_huf0f936657272f740458ce01ff7a75427_25058_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;577&#34; height=&#34;459&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    License request flow
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;If the viewer is authorized to use the requested keys, the authorized subset of keys&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; (which may be smaller than the requested set of keys) is embedded into a &lt;strong&gt;license&lt;/strong&gt; that is returned by the DRM server as a response to the license request. Processing the license makes the keys usable by the DRM client.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    When is the authorized subset of keys different from what is requested? This is up to business logic. For example, if the user does not have a subscription that permits 4K playback, they would not get authorization to use the key for the 4K quality level. This would not prevent successful playback of lower quality levels.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Even if an authorization token is present, only genuine DRM clients that can prove their authenticity are granted keys. A separate article will cover DRM client and server authentication in detail.&lt;/p&gt;
+&lt;h1 id=&#34;protecting-keys&#34;&gt;Protecting keys&lt;/h1&gt;
+&lt;p&gt;The keys in the license are themselves encrypted using a public key, the private key complement of which is held by the DRM client. Protecting this private key is critical to DRM client security as it allows the keys within a license to be decrypted.&lt;/p&gt;
+&lt;p&gt;In high-robustness DRM clients, the client private key is only usable within a secure enclave (aka trusted execution environment). The exact security mechanisms used to create the secure enclave depend on the operating system and device hardware capabilities.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-high-robustness-drm-clients-protect-secrets-using-a-secure-enclave&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-03/high-robustness-secure-enclave_hua13fc77996bb5324a1b8c59bd78a96da_18973_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;698&#34; height=&#34;320&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    High robustness DRM clients protect secrets using a secure enclave.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;The effect of using a secure enclave is that the DRM client is able to use its private key for decryption without exposing the private key outside the enclave. Furthermore, the decrypted data itself (the key used to decrypt movie data) is not exposed outside the enclave, being directly plugged into the movie decryption process that exists out of reach of the attacker.&lt;/p&gt;
+&lt;p&gt;DRM clients lacking the capability to use a secure enclave must rely only on obfuscation and anti-tampering countermeasures to protect the private key of the DRM client, the movie keys and the decrypted media samples.&lt;/p&gt;
+&lt;p&gt;The typical technique for low robustness clients is to use white-box cryptography&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt; to obscure parts of the cryptographic processes within the DRM client. The core principle of white-box cryptography is the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The DRM client private key is merged into the decryption algorithm (possibly also merging multiple sequential decryption keys/algorithms).&lt;/li&gt;
+&lt;li&gt;The combined algorithm is obfuscated to make it very difficult to identify what part of it is the key.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The result is that the DRM client has an algorithm that takes encrypted movie keys and the encrypted movie as input and, without requiring any DRM client private key as input nor exposing the decrypted movie key, decrypts the movie data.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-low-robustness-drm-clients-protect-secrets-using-white-box-cryptography&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-03/low-robustness-whitebox-crypto_huce1008a2b18ae9e8a7ff9f60c5f44188_10521_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;528&#34; height=&#34;223&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Low robustness DRM clients protect secrets using white-box cryptography.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Note that the interface between the decryption algorithm and the media decoder still needs protecting (using operating system specific means) to prevent the decrypted samples from being intercepted and recorded.&lt;/p&gt;
+&lt;p&gt;A sufficiently skilled cryptanalyst may still be able to extract the keys from a DRM client that uses white-box cryptography but a good implementation will make it significantly more expensive in terms of time and effort. Ideally, so expensive as to make key extraction attacks impractical.&lt;/p&gt;
+&lt;h1 id=&#34;enforcing-policy-decisions&#34;&gt;Enforcing policy decisions&lt;/h1&gt;
+&lt;p&gt;In addition to protecting keys and decrypted samples, the DRM client is also in charge of enforcing the policy constraints attached to the licenses that deliver keys.&lt;/p&gt;
+&lt;p&gt;This policy can include elements derived from both solution-specific needs and from content provider requirements. Common examples of license policy are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;License expires on specific date/time.&lt;/li&gt;
+&lt;li&gt;Playback is only permitted on output devices that support HDCP&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt; 2.2.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    HDCP is an example of an &lt;strong&gt;output protection technology&lt;/strong&gt;. These are sometimes confused with DRM but are entirely separate. Output protection applies to the signal between the device&amp;rsquo;s graphics card and the display - it protects against the signal being intercepted on the cables coming out of a device.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In general, different DRM technologies offer equivalent capabilities in terms of policy configuration. However, the exact technical language used to describe policy decisions will be different for each DRM technology.&lt;/p&gt;
+&lt;p&gt;The policy starts as human-readable (e.g. English) text in a contract. This text has numerous effects on the implementation but the policy that specifically controls DRM client behavior is typically handled as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The human-readable contract language is translated to a machine-readable rules language, managed using a CMS.&lt;/li&gt;
+&lt;li&gt;These rules control the policy configuration in authorization tokens emitted by the authorization service.&lt;/li&gt;
+&lt;li&gt;The DRM server translates these generic rules to a DRM technology specific configuration when granting a license.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-protection-policy-flow-in-typical-solution-architecture&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-03/policy-flow_hueabfa81cb4d1eeed1a95750eb2e1f77b_26067_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;473&#34; height=&#34;512&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Protection policy flow in typical solution architecture.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Not every DRM client will be able to enforce every policy:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;To enforce time-based policy, the DRM client needs a tamper-resistant clock.&lt;/li&gt;
+&lt;li&gt;To enforce HDCP, the DRM client needs access to an opeating system API that enables HDCP usage to be controlled.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The license request typically contains information about the DRM client&amp;rsquo;s capabilities. This set of capabilities can be evaluated by the DRM server to determine what policies are enforceable by the DRM client. Insufficient capabilities may limit the set of keys that can be made available or result in a denial of license.&lt;/p&gt;
+&lt;h1 id=&#34;whats-the-difference&#34;&gt;What&amp;rsquo;s the difference?&lt;/h1&gt;
+&lt;p&gt;High-robustness DRM client implementations require deep integration with the operating system and hardware. DRM clients delivered as browser or app plugins are low robustness implementations. &lt;strong&gt;Native DRM clients provided by the operating system have a significant advantage in terms of security and should be preferred.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The content of this article applies to all modern DRM technologies in widespread use. Given that all DRM technologies aim to achieve the same thing one may wonder why there are non-native DRM client implementations available for many devices/browsers, especially if the native DRM client often provides far better robustness than its competition.&lt;/p&gt;
+&lt;p&gt;This largely comes down to history. There used to be multiple competing DRM technologies offering equivalent (low) robustness levels at equivalent (high) prices. Eventually, platform authors (Microsoft, Google, Apple) and their licensees started offering high-robustness DRM built right into the platform. In parallel, the DRM technology authors lowered the technology licensing prices to very reasonable levels making competition on price largely irrelevant.&lt;/p&gt;
+&lt;p&gt;The policy-enforcement capabilities of all modern DRM clients are effectively equivalent. While small technical differences exist, DRM clients do not compete based on what types of protection policies they can enforce.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Different low robustness DRM clients may have different capabilities when it comes to protection against screen capture software. Still, these differences are typically not significant enough to result in meaningful competition between DRM clients. This is often also device-specific and version-specific, with the exact capabilities sometimes difficult to even determine in a reliable way.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;There is almost no reason today to use anything other than the native DRM implementation. On Apple platforms, FairPlay DRM is easy to use and offers high robustness. On Google platforms, Widevine DRM is king. On Microsoft platforms, PlayReady offers the best features. On playback-specialized consumer electronic devices (e.g. Smart TVs, set-top boxes and TV dongles) you often find multiple high-robustness DRM implementations (typically both PlayReady and Widevine are available).&lt;/p&gt;
+&lt;p&gt;Two practical obstacles remain to use of high-robustness native DRM clients:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The Windows-native PlayReady DRM is only available to Microsoft browsers, with all other web browsers forced to use low-robustness plugin-based DRM clients. Obviously, this gives Microsoft browsers a competitive advantage - low robustness DRM in other browsers is limited to showing low quality content&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;li&gt;Legacy solutions deployed many years ago may already be heavily invested in a single DRM technology, having locked themselves into certain technical or business decisions, and lack the architectural agility to start using the best modern DRM clients which would permit them to present even higher value content.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;As long as an implementation of the required robustness level is available on a given platform, there are no significant technical differences between DRM technologies. If you are creating a new solution, &lt;strong&gt;use the native DRM technology on each device&lt;/strong&gt; and build your solution based on open industry specifications&lt;sup id=&#34;fnref:9&#34;&gt;&lt;a href=&#34;#fn:9&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;9&lt;/a&gt;&lt;/sup&gt;&lt;sup&gt;,&lt;/sup&gt;&lt;sup id=&#34;fnref:10&#34;&gt;&lt;a href=&#34;#fn:10&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;10&lt;/a&gt;&lt;/sup&gt;. This gives the best capability and flexibility while avoiding lock-in to unusual DRM clients for a given platforms.&lt;/p&gt;
+&lt;p&gt;Using a DRM service provider to buy in the bulk of DRM infrastructure or consulting a seasoned DRM expert to build your own infrastructure can both greatly simplify DRM technology integration, reducing the cost in terms of time and money. A future article will provide an in-depth look at what the integration of a specific DRM technology means for a solution and what role DRM service providers play.&lt;/p&gt;
+&lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
+&lt;p&gt;Where do the keys even come from? How are they created and transported across a solution? You will find out soon, as the next article is all about key management.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://www.motionpictures.org/what-we-do/advancing-creativity/additional-resources/#content-protection-best-practices&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;MPAA Content Protection Best Practices&lt;/a&gt; &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/Guidelines-Security/master/Guidelines-Security.html#CPS-PeriodReauth&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF guidelines on periodic re-authorization&lt;/a&gt; &lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/Guidelines-Security/master/Guidelines-Security.html#CPS-activation-workflow&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF recommended workflow for DRM client activation&lt;/a&gt; &lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/Guidelines-Security/master/Guidelines-Security.html#CPS-lr-model-authz&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF recommended license request model&lt;/a&gt; &lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/Guidelines-Security/master/Guidelines-Security.html#CPS-unavailable-keys&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF guidelines on handling partial availability of content keys&lt;/a&gt; &lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://www.whiteboxcrypto.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;White-box cryptography&lt;/a&gt; &lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://en.wikipedia.org/wiki/High-bandwidth_Digital_Content_Protection&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;HDCP (Wikipedia)&lt;/a&gt; &lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://help.netflix.com/en/node/23931&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Using Netflix on your Windows computer or tablet: Netflix in Ultra HD&lt;/a&gt; &lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:9&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/Guidelines-Security/master/Guidelines-Security.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF implementation guidelines: content protection and security&lt;/a&gt; &lt;a href=&#34;#fnref:9&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:10&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/CPIX/master/Cpix.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF Implementation Guidelines: Content Protection Information Exchange Format (CPIX)&lt;/a&gt; &lt;a href=&#34;#fnref:10&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+    </item>
     
     <item>
       <title>DRM is not a black box, part 2: encryption and content</title>
@@ -196,7 +500,7 @@
 &lt;p&gt;After applying encryption the movie is safe for publishing over unprotected channels. You do not need to guard access to the files as the content cannot be accessed without the key. In some high-security scenarios, you might still care about protecting access to the files as part of a defense-in-depth strategy (e.g. by using URL signing to control who can download the files) but on a cryptographic level the sample data is now unusable for an attacker.&lt;/p&gt;
 &lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
-    All modern DRM technologies use the same encryption algorithms that are equally strong - there is no difference in the strength of encryption between DRM technologies. However, different DRM client implementations do have different strengths and weaknesses. This will be explored in depth by the next article in this series.
+    All modern DRM technologies use the same encryption algorithms that are equally strong - there is no difference in the strength of encryption between DRM technologies. However, different DRM client implementations do have different strengths and weaknesses. This will be explored in depth by the &lt;a href=&#34;../drm-is-not-a-black-box-03/&#34;&gt;next article in this series&lt;/a&gt;.
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;To apply encryption, you need to know the &lt;strong&gt;key&lt;/strong&gt; and the &lt;strong&gt;key ID&lt;/strong&gt; (or &lt;strong&gt;KID&lt;/strong&gt;). The key is a 128-bit symmetric key (i.e. the same key is used for encryption and decryption). The KID is a separate (non-secret) 128-bit value used elsewhere in DRM workflows to reference a specific key. Key management is a large topic of its own, to be covered in a separate article.&lt;/p&gt;
@@ -352,7 +656,8 @@
 &lt;p&gt;There is no straightforward answer as the details depend on the exact products and services used to perform the encryption - if you use very low-level media processing tools you may need to provide low level details, whereas if you use a fully automated publishing pipeline then you might not need to do anything at all.&lt;/p&gt;
 &lt;p&gt;Consult with an expert to determine the appropriate setup for your specific situation.&lt;/p&gt;
 &lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
-&lt;p&gt;Having encrypted the samples and embedded DRM client initialization data, the content is ready to be served. The next article will take a look at the duties of the DRM client.&lt;/p&gt;
+&lt;p&gt;Having encrypted the samples and embedded DRM client initialization data, the content is ready to be served. 
+&lt;a href=&#34;../drm-is-not-a-black-box-03/&#34;&gt;The next article will take a look at the duties of the DRM client&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Key management and other DRM-relevant data flows in the content pipeline will be covered in a separate article.&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
@@ -532,7 +837,8 @@
 &lt;p&gt;The management of encryption keys is often also a proprietary solution tied to the DRM server, although its exact forms vary greatly and no single approach has a strong foothold in the DRM ecosystem. Future articles 
 &lt;a href=&#34;/categories/drm-is-not-a-black-box/&#34;&gt;in this series&lt;/a&gt; will explore the backend workflows in depth.&lt;/p&gt;
 &lt;h1 id=&#34;multi-drm-is-mandatory&#34;&gt;Multi-DRM is mandatory&lt;/h1&gt;
-&lt;p&gt;There is no single DRM technology that covers all platforms. For reasons described in future articles, a solution operator will often want to use the native DRM technology offered by a platform even if other options exist.&lt;/p&gt;
+&lt;p&gt;There is no single DRM technology that covers all platforms. For reasons described 
+&lt;a href=&#34;../drm-is-not-a-black-box-03/&#34;&gt;in a future article&lt;/a&gt;, a solution operator will often want to use the native DRM technology offered by a platform even if other options exist.&lt;/p&gt;
 &lt;p&gt;As a result, a typical solution will need to use multiple DRM technologies, each targeting a specific set of platforms. This is a &lt;strong&gt;multi-DRM&lt;/strong&gt; scenario.&lt;/p&gt;
 &lt;p&gt;Different DRM technologies are completely independent from each other and only in recent years did the use of the same content files with different DRM technologies become feasible, due to all major DRM technologies starting to support the same encryption scheme. There are significant differences in the workflows, APIs and architectural patterns used with different DRM technologies. There are even significant and hidden differences in how different devices implement the same DRM technology! And of course, there are different versions of DRM technologies and different implementations of those technologies. It can be a major challenge to understand how exactly multiple DRM technologies can be effectively tied together in a single solution.&lt;/p&gt;
 

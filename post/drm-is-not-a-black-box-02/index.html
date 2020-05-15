@@ -804,7 +804,7 @@
 <p>After applying encryption the movie is safe for publishing over unprotected channels. You do not need to guard access to the files as the content cannot be accessed without the key. In some high-security scenarios, you might still care about protecting access to the files as part of a defense-in-depth strategy (e.g. by using URL signing to control who can download the files) but on a cryptographic level the sample data is now unusable for an attacker.</p>
 <div class="alert alert-note">
   <div>
-    All modern DRM technologies use the same encryption algorithms that are equally strong - there is no difference in the strength of encryption between DRM technologies. However, different DRM client implementations do have different strengths and weaknesses. This will be explored in depth by the next article in this series.
+    All modern DRM technologies use the same encryption algorithms that are equally strong - there is no difference in the strength of encryption between DRM technologies. However, different DRM client implementations do have different strengths and weaknesses. This will be explored in depth by the <a href="../drm-is-not-a-black-box-03/">next article in this series</a>.
   </div>
 </div>
 <p>To apply encryption, you need to know the <strong>key</strong> and the <strong>key ID</strong> (or <strong>KID</strong>). The key is a 128-bit symmetric key (i.e. the same key is used for encryption and decryption). The KID is a separate (non-secret) 128-bit value used elsewhere in DRM workflows to reference a specific key. Key management is a large topic of its own, to be covered in a separate article.</p>
@@ -960,7 +960,8 @@
 <p>There is no straightforward answer as the details depend on the exact products and services used to perform the encryption - if you use very low-level media processing tools you may need to provide low level details, whereas if you use a fully automated publishing pipeline then you might not need to do anything at all.</p>
 <p>Consult with an expert to determine the appropriate setup for your specific situation.</p>
 <h1 id="coming-up-next">Coming up next</h1>
-<p>Having encrypted the samples and embedded DRM client initialization data, the content is ready to be served. The next article will take a look at the duties of the DRM client.</p>
+<p>Having encrypted the samples and embedded DRM client initialization data, the content is ready to be served. 
+<a href="../drm-is-not-a-black-box-03/">The next article will take a look at the duties of the DRM client</a>.</p>
 <p>Key management and other DRM-relevant data flows in the content pipeline will be covered in a separate article.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>

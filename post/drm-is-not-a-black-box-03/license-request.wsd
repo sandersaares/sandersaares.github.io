@@ -1,0 +1,22 @@
+@startuml
+
+participant App
+participant "DRM client" as Client
+participant "DRM server" as Server
+participant "Authorization service" as Authz
+
+App -> Client: Activate for keys X, Y
+Client -> Client: Query key storage\nfor existing licenses
+Client -> App: License request
+
+App -> Authz: Authorize keys X, Y
+Authz -> Authz: Authorization checks
+Authz -> App: Authorization token for keys X, Y
+
+App -> Server: License request + authorization token
+Server -> Server: Verify token
+Server -> App: License for keys X, Y
+
+App -> Client: License for keys X, Y
+
+@enduml

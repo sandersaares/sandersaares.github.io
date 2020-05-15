@@ -1,0 +1,17 @@
+@startuml
+
+package "Attacker-controlled device" {
+    [Decryption key] as key
+    [Decrypted movie] as decrypted_movie
+    [Display] as display
+    [DRM client] as drm
+}
+
+[Encrypted movie] as encrypted_movie
+
+encrypted_movie -> drm
+key --> drm
+drm -> decrypted_movie
+decrypted_movie -> display
+
+@enduml
