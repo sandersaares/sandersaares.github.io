@@ -807,7 +807,8 @@
     All modern DRM technologies use the same encryption algorithms that are equally strong - there is no difference in the strength of encryption between DRM technologies. However, different DRM client implementations do have different strengths and weaknesses. This will be explored in depth by the <a href="../drm-is-not-a-black-box-03/">next article in this series</a>.
   </div>
 </div>
-<p>To apply encryption, you need to know the <strong>key</strong> and the <strong>key ID</strong> (or <strong>KID</strong>). The key is a 128-bit symmetric key (i.e. the same key is used for encryption and decryption). The KID is a separate (non-secret) 128-bit value used elsewhere in DRM workflows to reference a specific key. Key management is a large topic of its own, to be covered in a separate article.</p>
+<p>To apply encryption, you need to know the <strong>key</strong> and the <strong>key ID</strong> (or <strong>KID</strong>). The key is a 128-bit symmetric key (i.e. the same key is used for encryption and decryption). The KID is a separate (non-secret) 128-bit value used elsewhere in DRM workflows to reference a specific key. Key management is a large topic of its own, to be covered 
+<a href="../drm-is-not-a-black-box-04/">in a separate article</a>.</p>
 <p>Different data formats are used for representing keys and KIDs, depending on the situation and the specific piece of software. In practice, the KID is typically formatted as a GUID<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> (<code>a0a8db17-20c7-4068-bfbd-f8a68e34f1a5</code>) and the key as a base64 or hexadecimal string (<code>FSu0UIH8Z06IOyXVlnmc8Q==</code> or <code>0x152bb45081fc674e883b25d596799cf1</code>).</p>
 <div class="alert alert-warning">
   <div>
