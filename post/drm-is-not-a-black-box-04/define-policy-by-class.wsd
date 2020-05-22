@@ -1,0 +1,10 @@
+@startuml
+
+[SolutionOperator/Studio123\ncontent license agreement] as Contract
+[CMS]
+actor Operator as admin
+
+admin -left-> Contract: Read
+admin -right-> CMS: Configure "Studio123 library content" policy\nConfigure "Studio123 early window content" policy
+
+@enduml

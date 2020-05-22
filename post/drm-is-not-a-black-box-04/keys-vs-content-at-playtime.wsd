@@ -1,0 +1,27 @@
+@startuml
+
+participant App
+participant "Authorization service" as authz
+participant "Policy engine" as policy
+participant "DRM server" as DRM
+
+==When starting playback==
+App -> authz: Authorize for keys X, Y, Z
+
+authz -> policy: Resolve policy for key X
+policy -> authz: X requires "basic" subscription\nMax license period 24 hours
+
+authz -> policy: Resolve policy for key Y
+policy -> authz: Y requires "HD" subscription\nMax license period 24 hours\nOnly high-robustness clients
+
+authz -> policy: Resolve policy for key Z
+policy -> authz: Z requires "basic" subscription\nMax license period 24 hours
+
+authz -> authz: Execute authorization checks based on policy
+
+authz -> App: Authorization token for keys X, Y, Z\nwith embedded policy constraints
+
+App -> DRM: License request + authorization token
+DRM -> App: License with keys and\nconstraints from token
+
+@enduml

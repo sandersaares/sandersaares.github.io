@@ -1,0 +1,15 @@
+@startuml
+
+[CMS] as CMS
+[Key server] as keys
+[Content packager] as packager
+[DRM server] as drm
+
+CMS -> keys : Create and export keys X, Y, Z\nEncrypt CPIX for content packager and DRM server
+CMS -> packager : Process movie using attached CPIX
+CMS -> drm: Import keys from attached CPIX
+
+keys -[#hidden]- packager
+packager -[#hidden]- drm
+
+@enduml

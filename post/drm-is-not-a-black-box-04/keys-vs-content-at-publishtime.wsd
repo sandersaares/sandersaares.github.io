@@ -1,0 +1,21 @@
+@startuml
+
+participant CMS
+participant "Database" as db
+participant "Policy engine" as policy
+participant "Published data" as catalog
+
+==When publishing content==
+
+CMS -> db: Get movie ABC
+db -> CMS: Movie ABC\nCategory: Studio123_EarlyWindow\nKeys: X (SD), Y (HD+), Z (audio)
+
+CMS -> policy: Get Studio123_EarlyWindow key usage policy
+policy -> CMS: Key usage policy
+
+CMS -> CMS: Extend policy with solution-specific rules:\nKey Y (HD+) requires "HD" subscription
+
+CMS -> catalog: Publish movie ABC
+CMS -> catalog: Publish key usage policy for keys X, Y, Z
+
+@enduml

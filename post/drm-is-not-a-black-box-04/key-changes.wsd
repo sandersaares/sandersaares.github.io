@@ -1,0 +1,21 @@
+@startuml
+
+participant CMS
+participant "Key server" as Keys
+participant "Content catalog" as Catalog
+participant "Content packager" as Packager
+
+[-> CMS: Event: upcoming key change\n3 hours from now\nfor live stream X
+
+CMS -> Keys: Create 3 keys
+Keys -> CMS: Created A, B, C
+
+CMS -> Catalog: Update live stream X\nKeys used starting at T+3h: A, B, C
+
+CMS -> Keys: Export keys A, B, C\nencrypted for content packager
+Keys -> CMS: CPIX document
+
+CMS -> CMS: Merge key period\ninformation into CPIX document
+CMS -> Packager: Update live stream X configuration\nwith attached CPIX document
+
+@enduml

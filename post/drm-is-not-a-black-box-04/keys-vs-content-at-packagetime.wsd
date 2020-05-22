@@ -1,0 +1,22 @@
+@startuml
+
+participant CMS
+participant "Key server" as keys
+participant "Content packager" as packager
+participant "Policy engine" as policy
+participant "Database" as db
+
+==When ingesting content==
+
+CMS -> CMS: On event: ingest movie ABC\nFrom: Studio123\nType: early window
+
+CMS -> policy: Get key structure policy for Studio123_EarlyWindow
+policy -> CMS: Use separate keys for SD/HD+/audio
+
+CMS -> keys: Create 3 keys
+keys -> CMS: Created keys X, Y, Z
+
+CMS -> db: Create movie ABC\nCategory: Studio123_EarlyWindow\nKeys: X (SD), Y (HD+), Z (audio)
+CMS -> packager: Process movie_abc.mp4\nEncrypt with: X (SD), Y (HD+), Z (audio)
+
+@enduml

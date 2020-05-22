@@ -1,0 +1,12 @@
+@startuml
+
+[CMS]
+[Key server] as Keys
+[DRM server A] as drm_a
+[DRM server B] as drm_b
+
+CMS -> Keys : Create and export keys X, Y, Z\nencrypted for DRM servers A, B
+CMS --> drm_a : Import keys from CPIX
+CMS --> drm_b : Import keys from CPIX
+
+@enduml

@@ -268,7 +268,10 @@
 &lt;p&gt;Using a DRM service provider to buy in the bulk of DRM infrastructure or 
 &lt;a href=&#34;../../#contact&#34;&gt;consulting a seasoned DRM expert&lt;/a&gt; to design your own infrastructure can both greatly simplify DRM technology integration, reducing the cost in terms of time and money. A future article will provide an in-depth look at what the integration of a specific DRM technology means for a solution and what role DRM service providers play.&lt;/p&gt;
 &lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
-&lt;p&gt;Where do the keys even come from? How are they created and transported across a solution? You will find out soon, as the next article is all about key management.&lt;/p&gt;
+&lt;p&gt;Where do the keys even come from? How are they created and transported across a solution? You will find out soon, as 
+&lt;a href=&#34;../drm-is-not-a-black-box-04/&#34;&gt;the next article is all about key management&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../../categories/drm-is-not-a-black-box/&#34;&gt;View all articles in the series.&lt;/a&gt;&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -661,6 +664,8 @@
 &lt;p&gt;Having encrypted the samples and embedded DRM client initialization data, the content is ready to be served. 
 &lt;a href=&#34;../drm-is-not-a-black-box-03/&#34;&gt;The next article will take a look at the duties of the DRM client&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Key management and other DRM-relevant data flows in the content pipeline will be covered in a separate article.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../../categories/drm-is-not-a-black-box/&#34;&gt;View all articles in the series.&lt;/a&gt;&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -896,6 +901,8 @@
 &lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
 &lt;p&gt;
 &lt;a href=&#34;../drm-is-not-a-black-box-02/&#34;&gt;The next article&lt;/a&gt; will explore the technical sturcture of content used with modern DRM technologies and walk you through the steps and DRM interactions required to bring content into this form.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../../categories/drm-is-not-a-black-box/&#34;&gt;View all articles in the series.&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

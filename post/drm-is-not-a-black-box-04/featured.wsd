@@ -1,0 +1,29 @@
+@startuml
+
+[Source movie] as MovieClear
+[Encrypted movie] as MovieEncrypted
+
+[Player] as Player
+[Display device] as Display
+
+package "In this article" {
+    [Content packager] as Packager
+    [Key server] as Keys
+    [DRM server] as DRMServer
+    [DRM client] as DRM
+}
+
+Keys -down-> DRMServer : Keys
+Keys -down-> Packager : Keys
+DRMServer -down-> DRM : Keys
+
+MovieClear -right-> Packager
+Packager -right-> MovieEncrypted
+
+MovieEncrypted --> Player
+Player -up-> DRM
+DRM --> Display
+
+
+
+@enduml

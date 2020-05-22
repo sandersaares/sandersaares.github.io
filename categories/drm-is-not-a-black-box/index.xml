@@ -5,12 +5,477 @@
     <link>/categories/drm-is-not-a-black-box/</link>
       <atom:link href="/categories/drm-is-not-a-black-box/index.xml" rel="self" type="application/rss+xml" />
     <description>DRM is not a black box</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Sander Saares 2020</copyright><lastBuildDate>Fri, 22 May 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>DRM is not a black box</title>
       <link>/categories/drm-is-not-a-black-box/</link>
     </image>
+    
+    <item>
+      <title>DRM is not a black box, part 4: key management</title>
+      <link>/post/drm-is-not-a-black-box-04/</link>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
+      <guid>/post/drm-is-not-a-black-box-04/</guid>
+      <description>&lt;p&gt;Historical key managament approaches leave it all in the care of the DRM vendor, leading to major lock-in and maintenance headaches that can require solution re-architecting when DRM vendors are changed or added. A modern solution architecture separates key management from DRM and enables flexible integration of solution components from different vendors.&lt;/p&gt;
+&lt;p&gt;The following important interactions take place in the key management domain:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The content processing pipeline needs access to keys in order to encrypt media samples.&lt;/li&gt;
+&lt;li&gt;The DRM server needs access to keys in order to embed them into licenses that are delivered to DRM clients.&lt;/li&gt;
+&lt;li&gt;Authorization decisions must be informed by which keys are assocaited with which movies (and even which particular track).&lt;/li&gt;
+&lt;li&gt;Usage of keys is constrained by policy configuration.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Key management practices and protocols are minimally standardized in the industry and large sections of the workflows remain implementation-specific. This article presents the key management architecture that the author believes provides the best capabilities in terms of flexible features and cross-vendor interoperability, though it is certainly not the only architecture in active use.&lt;/p&gt;
+&lt;p&gt;Keys are the technical mechanism that allows many parts of content usage policy to be associated with encrypted movie data. Therefore, a discussion of key management must by necessity also cover policy management. The two topics are presented here together.&lt;/p&gt;
+&lt;h1 id=&#34;kid-is-in-the-focus&#34;&gt;KID is in the focus&lt;/h1&gt;
+&lt;p&gt;Each key is identified by a unique KID (aka key ID). Keys are also logically associated with content, as each movie uses one or more keys (e.g. the SD video key, the HD video key and the audio key). Keys are not shared by different movies, though sometimes shared by several tracks of the same movie.&lt;/p&gt;
+&lt;p&gt;Different components involved in DRM workflows work either with the KIDs that identify individual keys or the content ID that identifies a movie, rarely both. When designing the solution architecture, it is important to understand where each type of identifier is appropriate. Needless mixing of different identifiers can lead to architectural creep and mixing of domain specific concepts that complicates future evolution of a solution.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Keep any content ID or &amp;ldquo;movie&amp;rdquo; concept out of DRM interactions&lt;/strong&gt;. DRM is about keys and the policy that applies to the keys, so focus the domain language on keys and policy, with data sets associated by the KIDs.&lt;/p&gt;
+&lt;h1 id=&#34;flow-of-policy&#34;&gt;Flow of policy&lt;/h1&gt;
+&lt;p&gt;To determine the policy to apply to a key, there must exist some link between the key and the relevant policy. The policy that governs use of a key is associated with a specific movie.&lt;/p&gt;
+&lt;p&gt;Content providers typically define policy based on classes of content, with the policy being different for each content provider. A simplified example might be:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For library content (old content already released on DVD)
+&lt;ul&gt;
+&lt;li&gt;Same key may be used for all tracks.&lt;/li&gt;
+&lt;li&gt;Any production-grade DRM client robustness level is acceptable.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;For early window content (still in cinemas)
+&lt;ul&gt;
+&lt;li&gt;Separate key must be used for HD tracks.&lt;/li&gt;
+&lt;li&gt;Only high-robustness DRM clients are acceptable.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;An operator configures all the necessary policies in the CMS database for each content provider.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-policies-are-defined-based-on-contracts-with-content-providers&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/define-policy-by-class_hu208c02fd1327f7c83f529a405c0da2d2_12310_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;711&#34; height=&#34;100&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Policies are defined based on contracts with content providers.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;When a movie is submitted for ingest, it must be linked to the appropriate policy configuration. Based on the associated policy, the CMS needs to determine the key structure to use. The key and track associations are saved to the CMS database so that they can later be referenced to resolve the policy that applies to a specific key.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-the-links-between-keys-and-content-are-created-at-ingest-time&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/keys-vs-content-at-packagetime_hu7c3c9c499ffd4133cc4c8d9da985757a_33051_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;609&#34; height=&#34;451&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    The links between keys and content are created at ingest time.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;The policy to apply to a movie may change over time. Typically this is in the form of more relaxed constraints (e.g. when the content is no longer considered early window). Migrating content to use less strict policy is a simple database update that does not require re-processing of the content. Policy updates are published together with content catalog updates and take effect for any new playback authorizations granted by the authorization service.&lt;/p&gt;
+&lt;p&gt;The key-specific policy is assembled when publishing policy from the CMS database, combining the information on what keys are used by a movie with the content provider&amp;rsquo;s policy that applies to that movie, specialized for each key and enhanced by solution-specific business logic (e.g. rules like &amp;ldquo;must have &amp;lsquo;HD&amp;rsquo; subscription to authorize use of HD key&amp;rdquo;).&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-when-catalog-updates-are-published-policy-updates-are-likewise-published-for-any-affected-keys&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/keys-vs-content-at-publishtime_hu1ef9c5a2c77d3b67de59f433651e5299_29078_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;574&#34; height=&#34;419&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    When catalog updates are published, policy updates are likewise published for any affected keys.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;One effect of this workflow is that only the CMS needs to know which movie uses which keys - any DRM specific data sets published by the CMS directly reference individual keys and the policy associated with those keys.&lt;/p&gt;
+&lt;p&gt;When playback authorization is requested by an app, the authorization service inspects the policy of the requested keys and makes an individual decision for each key. The policy also supplies constraints that must be enforced by the DRM client. The configuration for these constraints is embedded into the authorization token, from which the DRM server transfers it to the generated license.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-drm-interactions-at-time-of-playback-operate-on-keys-which-are-linked-to-published-policy-data&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/keys-vs-content-at-playtime_hu8280e132107ab085e14ac72ca86834ee_41758_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;709&#34; height=&#34;589&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    DRM interactions at time of playback operate on keys which are linked to published policy data.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;The authorization token contains not only the proof of authorization but also the policy configuration that applies to each specific key. &lt;strong&gt;The main role of the DRM server is to translate part of the key usage policy into the constraints language of a specific DRM technology&lt;/strong&gt;. Until the workflow reaches the DRM server, the policy enforcement logic is not tied to a specific DRM technology.&lt;/p&gt;
+&lt;h1 id=&#34;creating-and-supplying-keys&#34;&gt;Creating and supplying keys&lt;/h1&gt;
+&lt;p&gt;The &lt;strong&gt;key server&lt;/strong&gt; is a database of keys and a set of APIs that can be used to access the keys. When keys are required by a component in the DRM workflows, they either request them from the key server or consume a key package previously exported from the key server.&lt;/p&gt;
+&lt;p&gt;CPIX&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; is the modern data format for key exchange. It defines a key package format that enables authenticated and confidential key delivery across the DRM ecosystem.&lt;/p&gt;
+&lt;div class=&#34;alert alert-warning&#34;&gt;
+  &lt;div&gt;
+    While CPIX defines a standard data format for the key package, the protocols and APIs that use CPIX remain proprietary at present, without a generally accepted standard. Often, entirely different key import/export APIs are used for integration with different 3rd party systems. In solution architectures with legacy components, many of these will not even be based on CPIX.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-cpix-documents-are-used-to-transfer-keys-between-components&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/key-movements-with-cpix_hu355db016463e9f911255c020b9f3770b_17735_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;486&#34; height=&#34;280&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    CPIX documents are used to transfer keys between components.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;The key server creates and stores new keys on demand. Once created, they may be exported for use by other services. This is typically done by the CMS, which passes the exported key packages on to other components during DRM workflow execution.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Some content packagers use a pull model where they directly access the key server to request keys. While potentially simpler to implement, this offers less architectural flexibility and removes a security boundary that may be important for defense in depth.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;It is important to keep the funcionality of the key server simple and constrained, as it is a highly security-sensitive component that has full access to the keys&lt;/strong&gt;. All duties that do not require access to keys should be moved out of the key server and into the CMS (which does not have access to keys).&lt;/p&gt;
+&lt;p&gt;The key server knows nothing about movies or whether a key is to be used for audio or video. Only very basic relations exist in the key server, largely for the purpose of supporting certain live streaming scenarios.&lt;/p&gt;
+&lt;h1 id=&#34;securing-keys-in-transit&#34;&gt;Securing keys in transit&lt;/h1&gt;
+&lt;p&gt;Keys exported from the key server are asymmetrically encrypted to ensure that only the intended final recipient (i.e. the content packager or DRM server) can unlock the key package.&lt;/p&gt;
+&lt;p&gt;It is common for the CMS requesting the key package to be unable to access the keys within because it is only an intermediary that coordinates the workflows and applies policy decisions. That is, the rights &amp;ldquo;can create and export keys&amp;rdquo; and &amp;ldquo;can decrypt keys&amp;rdquo; do not necessarily overlap among solution components.&lt;/p&gt;
+&lt;div class=&#34;alert alert-warning&#34;&gt;
+  &lt;div&gt;
+    The CPIX security mechanisms depend on implementation capabilities of the components using CPIX. Not every key server or packager in common use is capable of using encryption to secure keys transferred in CPIX documents. Verify the security capabilities of any products you plan to integrate into a solution.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;A public key infrastructure must be in place for the access control mechanisms built into the CPIX document format to be usable.&lt;/p&gt;
+&lt;h1 id=&#34;encrypting-media-samples&#34;&gt;Encrypting media samples&lt;/h1&gt;
+&lt;p&gt;The key server can export a set of keys but that is not enough to encrypt media samples. There must also be a mapping of which keys to use for what type of content. The typical rule is &amp;ldquo;use a different key for SD video, HD video, UHD video and audio&amp;rdquo; but content provider policies can add additional complexity to this logic. This mapping can be described by the CPIX document format using simple rules such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This key is to be used for video tracks.&lt;/li&gt;
+&lt;li&gt;This key is to be used for above 480p and up to 1080p resolution (HD).&lt;/li&gt;
+&lt;li&gt;This key is to be used for 5.1 channel audio tracks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Knowledge of what key is mapped to what tracks does not belong in the key server, however. This is the domain of the business logic, policy enforcement and workflow orchestration mechanisms in a solution typically embodied in the CMS. It knows which content provider a movie is from and knows the policies of that content provider. The CMS often also coordinates the activities of different solution components, giving them jobs and configuration. Therefore, it is the duty of the CMS to take a CPIX document exported from the key server and extend it with policy-based data.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-the-cms-extends-the-cpix-document-with-key-usage-rules-when-creating-content-processing-jobs&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/policy-in-cpix_hu2e999042c7abcae1b382521c90b83e58_21126_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;432&#34; height=&#34;357&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    The CMS extends the CPIX document with key usage rules when creating content processing jobs.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;For more details on how the acquired keys are used to encrypt content, refer back to 
+&lt;a href=&#34;../drm-is-not-a-black-box-02/&#34;&gt;the article on content processing&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Encryption interactions can be further complicated in live streaming scenarios where the keys and DRM metadata can change over time. This is explored in detail in the next article.&lt;/p&gt;
+&lt;h1 id=&#34;providing-keys-to-drm-clients&#34;&gt;Providing keys to DRM clients&lt;/h1&gt;
+&lt;p&gt;As described in 
+&lt;a href=&#34;../drm-is-not-a-black-box-03&#34;&gt;the article on secure playback&lt;/a&gt;, DRM clients request keys from DRM servers. Before that can happen, the key management workflows in a solution must deliver the keys to the one or more DRM servers.&lt;/p&gt;
+&lt;p&gt;A large solution may involve using multiple DRM servers from different vendors in parallel, for various legacy/contractual/policy/availability reasons. There is no universal architecture that can be assumed, beyond the need to be flexible.&lt;/p&gt;
+&lt;p&gt;DRM servers from some vendors require all keys to be inserted into a DRM server specific key database before the DRM server will use the keys in licenses. Indeed, there may be a separate DRM server database for each DRM server used in a solution.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-some-drm-servers-require-all-keys-to-be-individually-imported-before-use&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/import-to-keyservers_hua3ba3911ce2ba860067eb561246249ec_12138_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;488&#34; height=&#34;181&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Some DRM servers require all keys to be individually imported before use.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;The mechanisms for providing keys to DRM servers are not standardized, although the CPIX protocol is designed to facilitate this exchange. Still, it is only a data format and does not define an API, so a proprietary mechanism must be used with each involved DRM server to invoke the import.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Many previous-generation DRM servers assume that they are in control of key management and generation. This is not compatible with modern practices but remains a common cause of architectural complexity and integration headaches.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Not every DRM server requires the keys to be imported in advance (or at all). A more flexible architecture is to provide the keys to the DRM server as part of the license request sent by a player. This architecture uses the player as an intermediary to carry (encrypted) keys to a license server. Typically, the keys are requested on-demand and cached by the authorization service that resolves business logic and policy constraints when a player requests playback authorization.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Caching the keys by the authorization service reduces needless interactions with the key server and improves service availability by allowing authorization tokens to be granted even during key server downtime (if required keys are cached).
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Note that the authorization service only ever sees keys in encrypted form. Only the DRM server holds the private key required to decrypt the movie keys.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-some-drm-servers-can-accept-keys-embedded-into-authorization-tokens&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/attach-key-to-token_hude8a59985974405ef5e7e09f702f07b0_27229_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;714&#34; height=&#34;450&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    Some DRM servers can accept keys embedded into authorization tokens.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;By providing the keys together with the license request, the role of the DRM server is largely reduced to translating the policy attached to business logic authorization decisions into a DRM technology specific policy language. This enables the DRM server to be largely stateless, greatly reducing its complexity. As DRM servers often must be developed using idiosyncratic DRM technology SDKs, any simplification in the structure of and reduction in the role of DRM servers greatly improves solution maintainability. &lt;strong&gt;Prefer stateless workflows that use token-embedded keys instead of importing keys into a DRM server&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Standardized key export protocols like CPIX are imperfectly suitable for the embedded key architecture because CPIX documents are relatively large. This is a problem because authorization tokens are typically embedded into (size-limited) HTTP request headers. For this reason, a custom size-optimized data format is typically used for stateless DRM server workflows that use embedded keys.&lt;/p&gt;
+&lt;h1 id=&#34;changing-keys-in-live-streams&#34;&gt;Changing keys in live streams&lt;/h1&gt;
+&lt;p&gt;It is typical to change the keys in live streams on a regular interval. The purpose of this is to force re-authorization of the viewer&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;: a new key requires a new authorization token and license, which enables the solution components to ensure that the viewer still has a valid subscription for the content. A typical interval is 24 hours between key changes.&lt;/p&gt;
+&lt;p&gt;An alternative approach is to simply make the licenses (and authorization tokens) expire on an equivalent interval. While this can provide a roughly similar experience, there are many legacy DRM clients still deployed that do not possess a tamper-resistant clock and therefore cannot securely enforce time-based constraints. Changing the keys ensures that even such clients are forced to re-authenticate.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    It is a common misconception that the live stream keys are changed to improve cryptographic security. This is false. &lt;strong&gt;Changing the encryption keys on a regular basis provides no benefit in terms of cryptographic security.&lt;/strong&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Because the key will change at the same time for all viewers of a live stream it is important to deliver licenses containing the keys in advance of the actual key change and spread the license requests out across time to avoid overloading the DRM servers. Unfortunately, there are no industry-standard mechanisms for announcing upcoming keys, which means that the mechanism for preloading keys for upcoming key periods must be implemented using custom logic in each app.&lt;/p&gt;
+&lt;p&gt;Given that new keys must anyway be pushed to DRM clients ahead of time, which requires a timing/coordinating workflow in the CMS, the same workflow should be harnessed to also provide updated keys to the content packager.&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-a-schedule-based-workflow-publishes-key-changes-to-both-drm-clients-by-publishing-content-catalog-updates-and-the-content-packager&#34;&gt;
+
+
+
+  &lt;img data-src=&#34;/post/drm-is-not-a-black-box-04/key-changes_huf0f1a79386abda446788dd6806a7d763_31658_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;715&#34; height=&#34;454&#34;&gt;
+
+
+
+  
+  
+  &lt;figcaption&gt;
+    A schedule-based workflow publishes key changes to both DRM clients (by publishing content catalog updates) and the content packager.
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;The mechanism for providing new keys in live stream scenarios is not standardized and is different for each content packager and key server implementation. Many different integration possibilities exist, depending on the exact set of products used in the solution. Some implementations may even use a &amp;ldquo;pull&amp;rdquo; model, where the content packager contacts an external service when it wants new keys.&lt;/p&gt;
+&lt;h1 id=&#34;key-removal&#34;&gt;Key removal&lt;/h1&gt;
+&lt;p&gt;Content is often licensed from content providers for a certain time span. For example, you may obtain rights to show certain movies for a 6-month period, after which you need to remove the content from your solution.&lt;/p&gt;
+&lt;p&gt;You can offer content providers a high level of confidence that this is done by ensuring that your key management workflows include key expiration and automatic expired key removal and unpublishing (with relevant audit logs).&lt;/p&gt;
+&lt;h1 id=&#34;key-seeds&#34;&gt;Key seeds&lt;/h1&gt;
+&lt;p&gt;Occasionally one encounters key management architectures where keys are not individually managed but instead are mathematically derived from a key seed based on the key ID, using the (conceptual) equation &lt;code&gt;key = key seed + key ID&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In terms of cryptographic security there is nothing wrong with this - key seeds are a perfectly fine way to create keys. However, on a key management and solution architecture level this has various drawbacks:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Even if you use key seeds to generate keys, you still need to track the usage policy associated with each key, largely defeating the simplicity in all but the simplest solutions that apply the same policy to all keys.&lt;/li&gt;
+&lt;li&gt;Integration is complicated between systems using key seeds and those that do not, potentially requiring intermediate databases to be developed/maintained/secured.&lt;/li&gt;
+&lt;li&gt;Different systems may use different key seed algorithms.&lt;/li&gt;
+&lt;li&gt;Key removal becomes difficult to enforce - by knowing the key seed and key ID you can recreate any key that was derived from the key seed. To securely remove keys from a solution, you need to remove the key seed itself as well as the keys.&lt;/li&gt;
+&lt;li&gt;Instead of tracking just a key ID in various places, you now find yourself tracking a key ID and a key seed ID, increasting complexity and creating additional opportunities for accidental data mismatch that can be very hard to discover.&lt;/li&gt;
+&lt;li&gt;The security model implications are different; assumptions made when securing invididual keys might not hold when securing key seeds.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The above are only the most obvious complications - the more systems a solution integrates, the greater the compatibility and maintenance cost of a single factor and the greater the possible amount of surprises that can come up.&lt;/p&gt;
+&lt;p&gt;The primary advantage of a key seed approach is that you do not need to deliver new keys to the DRM server - as long as it knows the key seed, it can generate any key on its own. This may be an important feature in some rare scenarios.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Avoid using key seeds&lt;/strong&gt;. If you are forced to use key seeds (e.g. due to legacy reasons), limit their use to the key server and have every other component deal with individual keys. Using key seeds offers some tradeoffs in rare situations but often end up making the key life cycle in a solution more difficult to understand. As DRM is already a fairly challenging topic, it is valuable to keep things as straightforward as possible.&lt;/p&gt;
+&lt;h1 id=&#34;key-security&#34;&gt;Key security&lt;/h1&gt;
+&lt;p&gt;Keys must be secured against misused at all times. On the viewer&amp;rsquo;s device, the DRM client cares for this. In all other components, the solution architecture must include required security measures to prevent key disclosure. When working with high-value content you must also protect against insider threats by the solution&amp;rsquo;s own operators - just because someone has administrator access to the servers does not mean they should have access to keys!&lt;/p&gt;
+&lt;p&gt;Security is a huge topic that depends greatly on solution specific details. 
+&lt;a href=&#34;../../#contact&#34;&gt;Consult an expert&lt;/a&gt; to develop a scenario-appropriate key security model for you.&lt;/p&gt;
+&lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
+&lt;p&gt;DRM signaling is data embedded into movie manifest files. It informs players on how to activate DRM clients. In the next article we take a look at how it travels through the content workflows of a solution and how it should be handled.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../../categories/drm-is-not-a-black-box/&#34;&gt;View all articles in the series.&lt;/a&gt;&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/CPIX/master/Cpix.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Content Protection Information Exchange Format (CPIX)&lt;/a&gt; &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://dashif-documents.azurewebsites.net/Guidelines-Security/master/Guidelines-Security.html#CPS-PeriodReauth&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DASH-IF guidelines on periodic re-authorization&lt;/a&gt; &lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;</description>
+    </item>
     
     <item>
       <title>DRM is not a black box, part 3: secure playback</title>
@@ -268,7 +733,10 @@
 &lt;p&gt;Using a DRM service provider to buy in the bulk of DRM infrastructure or 
 &lt;a href=&#34;../../#contact&#34;&gt;consulting a seasoned DRM expert&lt;/a&gt; to design your own infrastructure can both greatly simplify DRM technology integration, reducing the cost in terms of time and money. A future article will provide an in-depth look at what the integration of a specific DRM technology means for a solution and what role DRM service providers play.&lt;/p&gt;
 &lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
-&lt;p&gt;Where do the keys even come from? How are they created and transported across a solution? You will find out soon, as the next article is all about key management.&lt;/p&gt;
+&lt;p&gt;Where do the keys even come from? How are they created and transported across a solution? You will find out soon, as 
+&lt;a href=&#34;../drm-is-not-a-black-box-04/&#34;&gt;the next article is all about key management&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../../categories/drm-is-not-a-black-box/&#34;&gt;View all articles in the series.&lt;/a&gt;&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -661,6 +1129,8 @@
 &lt;p&gt;Having encrypted the samples and embedded DRM client initialization data, the content is ready to be served. 
 &lt;a href=&#34;../drm-is-not-a-black-box-03/&#34;&gt;The next article will take a look at the duties of the DRM client&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Key management and other DRM-relevant data flows in the content pipeline will be covered in a separate article.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../../categories/drm-is-not-a-black-box/&#34;&gt;View all articles in the series.&lt;/a&gt;&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -896,6 +1366,8 @@
 &lt;h1 id=&#34;coming-up-next&#34;&gt;Coming up next&lt;/h1&gt;
 &lt;p&gt;
 &lt;a href=&#34;../drm-is-not-a-black-box-02/&#34;&gt;The next article&lt;/a&gt; will explore the technical sturcture of content used with modern DRM technologies and walk you through the steps and DRM interactions required to bring content into this form.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;../../categories/drm-is-not-a-black-box/&#34;&gt;View all articles in the series.&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

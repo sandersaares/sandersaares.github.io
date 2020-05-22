@@ -1,0 +1,23 @@
+@startuml
+
+participant App
+participant "Authorization service" as Authz
+participant "Key server" as Keys
+participant "DRM server" as DRM
+
+App -> Authz: Request authorization for keys X, Y, Z
+
+Authz -> Authz: Perform authorization checks
+
+alt If keys not cached
+    Authz -> Keys: Get keys X, Y, Z\nencrypted for DRM server
+    Keys -> Authz: Encrypted keys
+end
+
+Authz -> App: Authorization token\nwith embedded keys
+
+App -> DRM: Request license\nwith authorization token
+DRM -> DRM: Decrypt embedded keys
+DRM -> App: License
+
+@enduml

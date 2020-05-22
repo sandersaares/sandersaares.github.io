@@ -1,0 +1,18 @@
+@startuml
+
+participant CMS
+participant "Key server" as Keys
+participant "Content packager" as Packager
+
+CMS -> CMS: Determine appropriate policy
+
+CMS -> Keys: Create keys X, Y, Z
+CMS -> Keys: Export keys X, Y, Z\nencrypt for content packager
+
+Keys -> CMS: CPIX document with keys
+
+CMS -> CMS: Extend CPIX with key usage rules
+
+CMS -> Packager: Process movie_abc.mp4\nUse attached CPIX document\nwith keys and key usage rules
+
+@enduml
